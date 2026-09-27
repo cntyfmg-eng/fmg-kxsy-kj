@@ -1,0 +1,48 @@
+
+<div class="skin-menu" id="skinMenu"></div>
+
+<div class="modal" id="secModal">
+  <div class="modal-box">
+    <div class="modal-head">＋ 添加环节<button class="modal-x" id="secClose">×</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>环节名称</label><input id="s-title" value="任务六" spellcheck="false"></div>
+      <div class="fld"><label>环节类型</label>
+        <div class="mat-add-row">
+          <button class="cbtn t-btn on" data-stype="exp">🧪 实验任务</button>
+          <button class="cbtn t-btn" data-stype="board">📄 图文页</button>
+          <button class="cbtn t-btn" data-stype="media">🎬 素材页（视频/音频/图片/文字）</button>
+        </div>
+      </div>
+      <div class="fld" id="s-modWrap"><label>选择实验模块</label><select id="s-module"></select></div>
+      <div class="hint" id="s-tip"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="cbtn" id="secCancel">取消</button>
+      <button class="cbtn hi" id="secOk">添加环节</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="matModal">
+  <div class="modal-box">
+    <div class="modal-head">🎬 授课素材 <span class="sub" id="matSecName"></span><button class="modal-x" id="matClose">×</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>添加素材</label>
+        <div class="mat-add-row">
+          <button class="cbtn" data-add-mat="video">🎥 视频</button>
+          <button class="cbtn" data-add-mat="audio">🎵 音频</button>
+          <button class="cbtn" data-add-mat="image">🖼 图片</button>
+          <button class="cbtn" data-add-mat="text">📝 文字</button>
+        </div>
+      </div>
+      <div class="fld"><label>本环节素材列表（点名称编辑，可直接拖动排序）</label>
+        <div class="mat-add-row" id="matList" style="flex-direction:column;gap:7px"></div>
+      </div>
+      <div class="divider"></div>
+      <div id="matForm"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="cbtn" id="matDone">完成</button>
+    </div>
+  </div>
+</div>

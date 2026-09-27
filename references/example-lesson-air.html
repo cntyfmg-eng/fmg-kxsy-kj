@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="ydZIpuSamk4nP82Ugi3WM8">
+<head data-page-node-id="SJqFDGel92znSmFwSbOxk3">
+<meta charset="UTF-8" data-page-node-id="S1lsddq6YpGztck1GCEjbU">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="Ntq3es2jX0Q9DReuoK4orZ">
+<title>第1课 感受身边的空气 · 模拟实验演示</title>
+<style>
+:root{
+  --bg-deep:#0a231b;
+  --bg-panel:#123528;
+  --bg-panel-2:#0e2c21;
+  --bg-inset:#0b2419;
+  --line:#1e4a38;
+  --accent:#3fae82;
+  --accent-bright:#5fd0a0;
+  --gold:#d9b45c;
+  --text:#e9f4ee;
+  --text-dim:#a8c6b8;
+  --danger:#e8836c;
+  --warn:#e8b04b;
+  --radius:16px;
+  --raise:8px 8px 18px rgba(0,0,0,.55), -6px -6px 14px rgba(120,200,160,.06), inset 1px 1px 1px rgba(255,255,255,.09);
+  --raise-sm:5px 5px 10px rgba(0,0,0,.5), -3px -3px 8px rgba(120,200,160,.06), inset .5px .5px 1px rgba(255,255,255,.10);
+  --inset-sh:inset 5px 5px 10px rgba(0,0,0,.5), inset -3px -3px 8px rgba(120,200,160,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+  background:
+    radial-gradient(1200px 600px at 18% -10%, #17483a 0%, transparent 60%),
+    radial-gradient(1000px 520px at 110% 110%, #143d2e 0%, transparent 55%),
+    var(--bg-deep);
+  background-attachment:fixed;
+  color:var(--text);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+/* ---------- 顶栏 ---------- */
+.topbar{
+  flex:0 0 64px;margin:12px 14px 10px;padding:0 22px;
+  background:linear-gradient(145deg,#174534,#0f3427);
+  border-radius:var(--radius);box-shadow:var(--raise);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.lesson-meta{display:flex;align-items:baseline;gap:12px;min-width:0;flex-wrap:wrap;}
+.tag{
+  background:linear-gradient(145deg,#1d5640,#15432f);border:1px solid #2a6a50;
+  color:var(--accent-bright);font-weight:bold;font-size:15px;padding:6px 14px;border-radius:999px;
+  box-shadow:var(--raise-sm);white-space:nowrap;
+}
+.lesson-title{font-size:22px;font-weight:bold;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.5);}
+.brand-box{display:flex;flex-direction:column;align-items:flex-end;gap:3px;cursor:pointer;}
+.brand{font-size:20px;font-weight:bold;color:var(--gold);letter-spacing:2px;white-space:nowrap;text-shadow:2px 2px 5px rgba(0,0,0,.55);transition:transform .12s,color .12s;}
+.brand::before{content:"⚗";margin-right:8px;}
+.brand:hover{transform:translateY(-2px);color:#ffe59e;}
+.brand-by{font-size:11px;font-weight:400;color:var(--gold);opacity:.78;letter-spacing:1px;white-space:nowrap;text-shadow:1px 1px 2px rgba(0,0,0,.4);}
+.qr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.qr-overlay.show{display:flex;}
+.qr-box{background:linear-gradient(160deg,#f2fbf7,#e2f2ea);border:2px solid var(--accent);border-radius:18px;padding:28px 34px;box-shadow:0 18px 60px rgba(0,0,0,.65);text-align:center;max-width:90vw;max-height:90vh;position:relative;}
+.qr-box img{width:min(320px,55vh);height:auto;border-radius:12px;display:block;margin:0 auto 16px;}
+.qr-box p{color:#1e3a2f;font-size:17px;font-weight:600;line-height:1.7;}
+.qr-box .qr-close{position:absolute;top:8px;right:14px;background:none;border:none;font-size:26px;color:#5f7a70;cursor:pointer;line-height:1;}
+.qr-box .qr-close:hover{color:#c0392b;}
+/* ---------- 布局 ---------- */
+.layout{flex:1;min-height:0;display:grid;grid-template-columns:212px 1fr 312px;gap:14px;padding:0 14px 14px;}
+.panel{
+  background:linear-gradient(160deg,var(--bg-panel),var(--bg-panel-2));
+  border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--raise);
+  display:flex;flex-direction:column;min-height:0;overflow:hidden;
+}
+.panel-head{flex:0 0 auto;padding:12px 16px 8px;font-size:16px;font-weight:bold;color:var(--accent-bright);letter-spacing:1px;display:flex;align-items:center;gap:8px;}
+.panel-head::before{content:"";width:6px;height:18px;border-radius:3px;background:linear-gradient(180deg,var(--accent-bright),var(--accent));box-shadow:1px 1px 3px rgba(0,0,0,.5);}
+/* 左：环节 */
+.section-list{flex:1;overflow-y:auto;padding:6px 12px 12px;display:flex;flex-direction:column;gap:9px;}
+.sec-item{
+  background:linear-gradient(145deg,#16432f,#113726);border:1px solid #235c45;border-radius:12px;
+  box-shadow:var(--raise-sm);padding:10px 11px;cursor:pointer;font-size:14.5px;color:var(--text);
+  display:flex;align-items:center;gap:8px;transition:transform .12s,color .12s;word-break:break-all;
+}
+.sec-item:hover{transform:translateY(-2px);color:#fff;}
+.sec-item.active{background:linear-gradient(145deg,#1f6a4c,#175138);border-color:var(--accent);color:#fff;box-shadow:6px 6px 14px rgba(0,0,0,.55), inset 2px 2px 4px rgba(255,255,255,.12);}
+.sec-item .idx{
+  flex:0 0 23px;height:23px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#2c7c58,#17492f);border:1px solid #2f7a58;
+  color:var(--accent-bright);font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 1px 1px 2px rgba(255,255,255,.15),2px 2px 4px rgba(0,0,0,.4);
+}
+.sec-item .del-btn{display:none;margin-left:auto;background:none;border:none;color:var(--danger);font-size:14px;cursor:pointer;}
+.edit-mode .sec-item .del-btn{display:block;}
+.add-sec{margin:0 12px 12px;padding:9px;border-radius:12px;border:1.5px dashed #3c8a67;background:rgba(63,174,130,.08);color:var(--accent-bright);font-size:14px;cursor:pointer;display:none;}
+.edit-mode .add-sec{display:block;}
+/* 中：演示 */
+.center{display:flex;flex-direction:column;gap:12px;min-height:0;min-width:0;}
+.equip-bar{
+  flex:0 0 auto;background:linear-gradient(145deg,#153f2f,#103226);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--raise);padding:10px 16px;display:flex;align-items:flex-start;gap:12px;
+}
+.equip-bar .lab{
+  flex:0 0 auto;font-size:14px;font-weight:bold;color:var(--gold);padding:3px 12px;border-radius:999px;
+  background:linear-gradient(145deg,#1c5138,#14402c);border:1px solid #2f7a58;box-shadow:var(--raise-sm);white-space:nowrap;
+}
+.equip-text{font-size:15px;line-height:1.7;color:var(--text);flex:1;outline:none;}
+.demo-wrap{flex:1;min-height:0;background:linear-gradient(160deg,var(--bg-panel),var(--bg-panel-2));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--raise);display:flex;flex-direction:column;overflow:hidden;}
+.demo-head{flex:0 0 auto;padding:9px 16px 5px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.demo-title{font-size:17px;font-weight:bold;color:var(--accent-bright);}
+.stage-3d{
+  flex:1;min-height:0;perspective:1100px;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 38%, rgba(63,174,130,.13) 0%, transparent 62%),var(--bg-inset);
+  border-top:1px solid var(--line);overflow:hidden;position:relative;cursor:grab;
+}
+.stage-3d:active{cursor:grabbing;}
+.stage-hint{position:absolute;bottom:7px;right:12px;font-size:11.5px;color:var(--text-dim);opacity:.75;pointer-events:none;background:rgba(10,35,27,.6);padding:3px 10px;border-radius:999px;}
+.stage-card{max-width:96%;max-height:92%;transform-style:preserve-3d;transition:transform .18s ease-out;display:flex;flex-direction:column;align-items:center;gap:8px;will-change:transform;}
+.scene{
+  width:min(760px,72vh);height:auto;max-height:56vh;
+  background:linear-gradient(180deg,#f2fbf7 0%,#dff0e7 60%,#cfe6da 100%);
+  border-radius:14px;border:2px solid #2c6f53;
+  box-shadow:10px 10px 26px rgba(0,0,0,.55), inset 0 0 20px rgba(63,174,130,.10);
+}
+/* 单件器材的 3D 观察（视角只作用于每件器材本身） */
+.obj3d{transform-box:fill-box;transform-origin:50% 50%;will-change:transform;}
+#p-squish,#s-bag{transform-box:fill-box;transform-origin:50% 50%;}
+/* 器材高亮聚光 */
+svg.spotlight > *:not(.spot-on){opacity:.13 !important;transition:opacity .3s ease;}
+svg.spotlight .spot-on{opacity:1 !important;}
+.spot-ring{fill:none;stroke:#ffd24a;stroke-width:3.5;stroke-dasharray:12 7;pointer-events:none;animation:spotdash .9s linear infinite;}
+.spot-ring2{fill:none;stroke:#ffd24a;stroke-width:1.2;opacity:.55;pointer-events:none;}
+.spot-tag{fill:#ffd24a;font-size:14px;font-weight:bold;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.6);}
+@keyframes spotdash{to{stroke-dashoffset:-38}}
+.hl-html{outline:3px dashed #ffd24a;outline-offset:4px;border-radius:10px;box-shadow:0 0 20px rgba(255,210,74,.5);}
+/* 仪表 / 记录表 / 看板 */
+.gauge{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-dim);}
+.gauge .gbar{flex:1;min-width:120px;height:11px;border-radius:999px;background:var(--bg-inset);box-shadow:var(--inset-sh);overflow:hidden;}
+.gauge .gbar i{display:block;height:100%;width:50%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-bright));transition:width .35s ease,background .35s ease;}
+.gauge b{color:var(--text);font-variant-numeric:tabular-nums;min-width:44px;text-align:right;}
+.rec{width:min(760px,72vh);border-collapse:separate;border-spacing:0;background:#fff;border-radius:10px;overflow:hidden;font-size:13.5px;box-shadow:0 4px 12px rgba(0,0,0,.35);}
+.rec th{background:linear-gradient(135deg,#1f6a4c,#175138);color:#fff;padding:8px 6px;border:1px solid #2f7a58;}
+.rec td{padding:7px 6px;text-align:center;border:1px solid #cfe0d6;color:#1e3a2f;}
+.rec td:first-child{background:#eef7f1;font-weight:600;}
+.rec .big{font-size:18px;font-weight:800;color:#c0392b;font-family:Consolas,monospace;}
+.board{
+  width:min(760px,72vh);max-height:56vh;overflow:auto;
+  background:linear-gradient(180deg,#f2fbf7,#e2f2ea);color:#1e3a2f;
+  border-radius:14px;border:2px solid #2c6f53;padding:18px 22px;
+  box-shadow:10px 10px 26px rgba(0,0,0,.5);line-height:1.9;font-size:15px;
+}
+.board h4{color:#14614a;font-size:17px;margin:0 0 8px;border-bottom:2px dashed #8fc4ac;display:inline-block;padding-bottom:4px;}
+.board p{margin:6px 0;}
+.board ul{margin:6px 0 6px 22px;}
+.board .q{background:#fff8e6;border-left:5px solid #e8a33d;padding:10px 14px;border-radius:8px;margin:10px 0;}
+.board .con{background:#e9f7ef;border-left:5px solid #2e9e6b;padding:10px 14px;border-radius:8px;margin:10px 0;}
+.board table{width:100%;border-collapse:collapse;margin:8px 0;font-size:14px;}
+.board th,td{border:1px solid #b9d9c9;padding:7px 8px;text-align:center;}
+.board th{background:#d9efe4;color:#14614a;}
+.board .mini-svg{width:100%;max-width:520px;height:auto;display:block;margin:8px auto;}
+/* 步骤条 */
+.steps-bar{
+  flex:0 0 auto;background:linear-gradient(145deg,#153f2f,#103226);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--raise);padding:9px 14px;display:flex;flex-direction:column;gap:7px;
+}
+.steps-label{font-size:14px;font-weight:bold;color:var(--gold);display:flex;align-items:center;gap:8px;}
+.steps-text{font-size:14.5px;line-height:1.75;color:var(--text);min-height:44px;}
+.progress{height:7px;border-radius:999px;background:var(--bg-inset);box-shadow:var(--inset-sh);overflow:hidden;}
+.progress i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-bright));transition:width .3s ease;}
+.ctrl-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.cbtn{
+  background:linear-gradient(145deg,#1d5640,#15432f);border:1px solid #2f7a58;color:var(--text);
+  font-size:13px;padding:7px 14px;border-radius:10px;cursor:pointer;box-shadow:var(--raise-sm);white-space:nowrap;
+}
+.cbtn:hover{color:#fff;border-color:var(--accent-bright);}
+.cbtn:active{box-shadow:var(--inset-sh);transform:translateY(1px);}
+.cbtn.hi{background:linear-gradient(145deg,#8a6d2b,#6d5420);border-color:#b1934a;color:#fff;}
+.cbtn.act{background:linear-gradient(145deg,#b1531f,#8a3f16);border-color:#d07a45;color:#fff;}
+.step-count{margin-left:auto;font-size:12.5px;color:var(--text-dim);font-variant-numeric:tabular-nums;}
+/* 右：选项 + 分析 */
+.right{display:flex;flex-direction:column;gap:12px;min-height:0;}
+.opt-box{flex:0 0 auto;min-height:0;}
+.ana-box{flex:1;min-height:0;}
+.panel-body{flex:1;min-height:0;overflow-y:auto;padding:4px 14px 14px;display:flex;flex-direction:column;gap:9px;}
+.opt-group-title{font-size:13.5px;font-weight:bold;color:var(--gold);display:flex;align-items:center;gap:8px;margin-top:3px;}
+.opt-group-title .add-chip{display:none;margin-left:auto;background:none;border:1px dashed #3c8a67;color:var(--accent-bright);border-radius:8px;font-size:12px;padding:2px 8px;cursor:pointer;}
+.edit-mode .opt-group-title .add-chip{display:inline-block;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{
+  background:linear-gradient(145deg,#16432f,#113726);border:1px solid #235c45;border-radius:999px;
+  color:var(--text);font-size:13px;padding:6px 12px;cursor:pointer;box-shadow:var(--raise-sm);
+  display:flex;align-items:center;gap:6px;word-break:break-all;
+}
+.chip:hover{color:#fff;}
+.chip.on{background:linear-gradient(145deg,#1f6a4c,#175138);border-color:var(--accent-bright);color:#fff;box-shadow:6px 6px 12px rgba(0,0,0,.55), inset 1px 1px 3px rgba(255,255,255,.15);}
+.chip .chip-del{display:none;color:var(--danger);font-size:12px;}
+.edit-mode .chip .chip-del{display:inline;}
+.view-ctrl{background:var(--bg-inset);border-radius:12px;box-shadow:var(--inset-sh);padding:11px;display:flex;flex-direction:column;gap:9px;}
+.view-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.vbtn{background:linear-gradient(145deg,#1d5640,#15432f);border:1px solid #2f7a58;border-radius:10px;color:var(--text);font-size:12.5px;padding:7px 4px;cursor:pointer;box-shadow:var(--raise-sm);}
+.vbtn:active{box-shadow:var(--inset-sh);transform:translateY(1px);}
+.view-reset{grid-column:1 / -1;background:linear-gradient(145deg,#8a6d2b,#6d5420);border-color:#b1934a;color:#fff;}
+.auto-note{font-size:11.5px;color:var(--text-dim);text-align:center;}
+.ana-block{display:flex;flex-direction:column;gap:4px;}
+.ana-label{font-size:13.5px;font-weight:bold;color:var(--accent-bright);}
+.ana-text{font-size:14px;line-height:1.8;color:var(--text);outline:none;white-space:pre-wrap;}
+.ana-text a{color:var(--gold);}
+.divider{height:1px;background:linear-gradient(90deg,transparent,#2a6a50,transparent);}
+/* 工具条 */
+.toolbar{
+  flex:0 0 auto;margin:0 14px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:linear-gradient(145deg,#123528,#0e2c21);border:1px solid var(--line);border-radius:14px;box-shadow:var(--raise);padding:8px 14px;
+}
+.tb-btn{background:linear-gradient(145deg,#1d5640,#15432f);border:1px solid #2f7a58;color:var(--text);font-size:13.5px;padding:8px 15px;border-radius:10px;cursor:pointer;box-shadow:var(--raise-sm);display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.tb-btn:hover{color:#fff;border-color:var(--accent-bright);}
+.tb-btn:active{box-shadow:var(--inset-sh);transform:translateY(1px);}
+.tb-btn.gold{background:linear-gradient(145deg,#8a6d2b,#6d5420);border-color:#b1934a;color:#fff;}
+.tb-btn.on{background:linear-gradient(145deg,#b1531f,#8a3f16);border-color:#d07a45;color:#fff;}
+.tb-tip{margin-left:auto;font-size:12.5px;color:var(--text-dim);}
+input[type=file]{display:none;}
+[contenteditable]:focus{outline:2px dashed rgba(95,208,160,.45);outline-offset:3px;border-radius:6px;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:#245c45;border-radius:99px;}
+@media (max-width:1180px){
+  body{overflow:auto;}
+  .layout{grid-template-columns:1fr;grid-auto-rows:auto;}
+  .panel{min-height:200px;}
+  .demo-wrap{min-height:460px;}
+  .scene,.rec,.board{width:100%;max-width:none;}
+}
+</style>
+</head>
+<body data-page-node-id="TbDxbBBZ1JsTcfK3xN8dNM">
+
+<header class="topbar" data-page-node-id="qSIt70TfhaFz4gH5nwaYd5">
+  <div class="lesson-meta" data-page-node-id="PDIVhWvuJdczifwjgSjUu4">
+    <span class="tag" id="metaUnit" contenteditable="true" spellcheck="false" data-page-node-id="1CbHDoVIHm8y2iRXtwTT2l">第一单元 空气</span>
+    <span class="tag" id="metaLesson" contenteditable="true" spellcheck="false" data-page-node-id="aShdKzdZYxGPkZJ8I407Jm">第 1 课</span>
+    <span class="lesson-title" id="metaTitle" contenteditable="true" spellcheck="false" data-page-node-id="6urIFviinNRYAeuyv7SKH1">感受身边的空气</span>
+  </div>
+  <div class="brand-box" id="brandBtn" title="点击扫码关注" data-page-node-id="TDEdzEvc041m8EfRAzI8cm">
+    <div class="brand">冯老师的科学实验</div>
+    <div class="brand-by">by数智化教学大冯老师@冯萌刚</div>
+  </div>
+</header>
+
+<div class="qr-overlay" id="qrOverlay">
+  <div class="qr-box">
+    <button class="qr-close" id="qrClose">×</button>
+    <img id="qrImg" alt="公众号二维码" src="data:image/jpeg;base64,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"/>
+    <p>扫码关注“数智化教学大冯老师”<br>拥有更多的实用技能和资源</p>
+  </div>
+</div>
+
+<main class="layout" data-page-node-id="L2zBBEx0xraFFWS0hZmbn4">
+  <aside class="panel" data-page-node-id="HvPslm7W85xBSynpG2FBFl">
+    <div class="panel-head" data-page-node-id="1fpzwFNPiLSWYYZtvZ6PZq">本课环节</div>
+    <div class="section-list" id="sectionList" data-page-node-id="Z8ZFdJxJD7d3wkM5Fy5DNf"></div>
+    <button class="add-sec" id="addSectionBtn" data-page-node-id="LIPw04wXYbXSA5Nf5zNRt3">＋ 添加环节</button>
+  </aside>
+
+  <section class="center" data-page-node-id="HpihHANCO5EclaWa2F2DFW">
+    <div class="equip-bar" data-page-node-id="CCdU3Ew6RuNG15irsN2JLa">
+      <span class="lab" data-page-node-id="wxy48gi22MHECiqHvFinII">实验器材</span>
+      <div class="equip-text" id="equipText" contenteditable="true" spellcheck="false" data-ph="填写本环节实验器材" data-page-node-id="XNNSmWLkuXPRk7FNZ3vzYu"></div>
+    </div>
+
+    <div class="demo-wrap" data-page-node-id="cl2iefJ0RJ79QPYStuWIAI">
+      <div class="demo-head" data-page-node-id="b5DrNspMvCu3fBuEZuu5A6">
+        <span class="demo-title" id="demoTitle" data-page-node-id="ftCAgSyrcMyeWRaELhAb7g">实验演示区域</span>
+        <span style="font-size:12px;color:var(--text-dim)" data-page-node-id="KDc8KAERubzpAAHIn5e0oW">🖱 点击右侧器材名可高亮观察</span>
+      </div>
+      <div class="stage-3d" id="stage3d" data-page-node-id="C2WEokWwKx90anZ4CTBx3w">
+        <div class="stage-card" id="stageCard" data-page-node-id="ejlIYWFmyiqKDN80jFLgTp"></div>
+        <div class="stage-hint" id="stageTip" data-page-node-id="2phE846DCgHTYuuMv0cCA0">准备就绪</div>
+      </div>
+    </div>
+
+    <div class="steps-bar" data-page-node-id="aIOM68wnaVNexmFM5zRezY">
+      <div class="steps-label" data-page-node-id="BVUgDzNBtL4rqLBI73OSFO">🧪 实验步骤<span id="modBtns" style="display:flex;gap:7px;margin-left:auto" data-page-node-id="j2D4IiZjnX8RRbVe1iWyRY"></span></div>
+      <div class="steps-text" id="stepsText" data-page-node-id="rVIEmisElWtxkDGL2VNiGm">点击「自动演示」开始</div>
+      <div class="progress" data-page-node-id="G944C0uBjMhsotO0U0zoD0"><i id="stepProgress" data-page-node-id="j2zjwrdDZtrc3j3bXEw9us"></i></div>
+      <div class="ctrl-row" data-page-node-id="ojorvd6WBhPE6Awz2G1HlU">
+        <button class="cbtn" id="btnPrev" data-page-node-id="wTCPKmr2hRAy1nZZ97FDdR">⏮ 上一步</button>
+        <button class="cbtn hi" id="btnAuto" data-page-node-id="ijLAqJlcLRg0w1IfPDHuTo">▶ 自动演示</button>
+        <button class="cbtn" id="btnNext" data-page-node-id="5447HrheXz2ld5zHPZalx3">下一步 ⏭</button>
+        <button class="cbtn" id="btnResetExp" data-page-node-id="YuVMm2pLfGXQaCLajVkEgP">↻ 重置</button>
+        <span class="step-count" id="stepCount" data-page-node-id="uniUYRy8uGSZJiFaMCTtDU">0 / 0</span>
+      </div>
+    </div>
+  </section>
+
+  <aside class="right" data-page-node-id="BebvtnkcqPV6PYrTVCSRY9">
+    <div class="panel opt-box" data-page-node-id="ajbhDPfd3SRhuZGAE0Cb5k">
+      <div class="panel-head" data-page-node-id="9PWWnA6GWow1aarXdv0M4H">实验选项</div>
+      <div class="panel-body" data-page-node-id="7Zt3zvnNsDgejeo7OIUoUG">
+        <div class="opt-group-title" data-page-node-id="7D9EjvcUzGJ7F3WFRXnyod">🖼 实验器材展示 <button class="add-chip" data-add-chip="equip" data-page-node-id="3ZyraZnaubBpxgnk9Io1Sg">＋</button></div>
+        <div class="chips" id="equipChips" data-page-node-id="paJZtkDLsUyYRbb45OkkiL"></div>
+        <div class="opt-group-title" data-page-node-id="1CMGeoojstfv7PCxENV1wB">📋 不同实验方案 <button class="add-chip" data-add-chip="plan" data-page-node-id="z0C8rxBzObCE3Cnp3nHA1J">＋</button></div>
+        <div class="chips" id="planChips" data-page-node-id="SiH26ijMlhACATzkUyCcAi"></div>
+        <div class="opt-group-title" data-page-node-id="ZfDTuYZmFtkbaH3Canb0nW">💡 学习提示</div>
+        <div class="auto-note" data-page-node-id="c0xvD0ehEyqMx5YgOAUeON" style="line-height:1.75;padding:8px 11px;background:var(--bg-inset);border-radius:10px;box-shadow:var(--inset-sh);">① 先点击右侧<b>实验方案</b>切换不同条件；<br>② 点击下方<b>步骤按钮</b>推进实验；<br>③ 点击器材名可在图中高亮对应器材。</div>
+      </div>
+    </div>
+
+    <div class="panel ana-box" data-page-node-id="qe6QL4shx4dHAo2rAK47MS">
+      <div class="panel-head" data-page-node-id="v4rcvaZDZhh8QjAPJL86ks">实验分析</div>
+      <div class="panel-body" data-page-node-id="Wr99HW24BeVGmzQJRmfqxS">
+        <div class="ana-block" data-page-node-id="JcEK4Ck5JMqrkymgp18r9x"><div class="ana-label" data-page-node-id="VFpNlv2xOCiqSc1MinVSQZ">🔍 实验分析</div><div class="ana-text" id="anaAnalysis" contenteditable="true" spellcheck="false" data-page-node-id="EwsuISTNmApIVWQS3SOrNl"></div></div>
+        <div class="divider" data-page-node-id="X535028WlM6aXT24m11iMJ"></div>
+        <div class="ana-block" data-page-node-id="cN1HXiaHKUAFClcDTJHyaa"><div class="ana-label" data-page-node-id="nVfODrU689iJqYKNRV8yqW">💡 得出原理</div><div class="ana-text" id="anaPrinciple" contenteditable="true" spellcheck="false" data-page-node-id="3PZ8SwkzE1jQZOVxuhGKHq"></div></div>
+        <div class="divider" data-page-node-id="twCGL4VQgXdhwCcBGVZaqj"></div>
+        <div class="ana-block" data-page-node-id="UwLyI3nWsArbuNzztfHYYg"><div class="ana-label" data-page-node-id="GVtsxy5v1lsbmF7jftwLy2">🏞 生活中的实例</div><div class="ana-text" id="anaExamples" contenteditable="true" spellcheck="false" data-page-node-id="STcFnItzQDKNhKs3Oym2Vl"></div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer class="toolbar" data-page-node-id="DL5BitmsC0otn4NYCCYHam">
+  <button class="tb-btn" id="editToggle" data-page-node-id="ZAa3I91txaBGRdXEPaSFbR">✏️ 编辑模式：关</button>
+  <button class="tb-btn" id="saveBtn" data-page-node-id="Kl9mYUtYvIsIp2kirl7Bx3">💾 保存</button>
+  <button class="tb-btn" id="exportBtn" data-page-node-id="ZmFpDGh8BUyVcJr75u8Fb1">📤 导出</button>
+  <button class="tb-btn" id="importBtn" data-page-node-id="M2amS6t0T5mL5p9Hjx6OkA">📥 导入</button>
+  <button class="tb-btn gold" id="resetBtn" data-page-node-id="xJXOtrHg6k0gzBAH0Qxiqf">♻️ 恢复默认</button>
+  <input type="file" id="jsonInput" accept=".json" data-page-node-id="ZWjzbLwwjENYOHIMieK7Fw">
+  <span class="tb-tip" id="tbTip" data-page-node-id="NVKuqs9KjGT7hmSxqwnvuC">左侧点击环节切换 · 右侧切换实验方案 · 下方控制实验步骤</span>
+</footer>
+
+<script>
+"use strict";
+/* ==================== 通用工具 ==================== */
+const $ = id => document.getElementById(id);
+const STORE_KEY = "fmg-air-lesson1-v2";
+function esc(s){ const d=document.createElement("div"); d.textContent = (s==null?"":String(s)); return d.innerHTML; }
+function tween(dur, cb){
+  return new Promise(res=>{
+    const t0 = performance.now();
+    (function f(now){
+      const p = Math.min(1,(now-t0)/dur);
+      cb(p);
+      if(p<1) requestAnimationFrame(f); else res();
+    })(t0);
+  });
+}
+function fade(id, to, dur){
+  const e = typeof id==="string" ? $(id) : id;
+  if(!e) return Promise.resolve();
+  e.style.transition = "opacity "+(dur||380)/1000+"s ease";
+  e.style.opacity = to;
+  return new Promise(r=>setTimeout(r, dur||380));
+}
+function setA(id, attr, v){ const e=$(id); if(e) e.setAttribute(attr, v); }
+function wait(ms){ return new Promise(r=>setTimeout(r, ms)); }
+function gVal(id, v){ const e=$(id); if(e) e.textContent = v; }
+
+/* ==================== 课堂数据 ==================== */
+function defaultLesson(){
+  return {
+    meta:{unit:"第一单元 空气", lesson:"第 1 课", title:"感受身边的空气"},
+    activeId:"intro",
+    sections:[
+      {
+        id:"intro", title:"导入新课", module:"board",
+        equip:"多媒体课件、气球、塑料袋、风车、水槽",
+        equipOpts:["多媒体课件","气球","塑料袋","风车"],
+        plans:[{id:"q1",label:"问题：空气在哪里"},{id:"q2",label:"猜想：空气有质量吗"},{id:"q3",label:"猜想：空气占空间吗"}],
+        analysis:"四年级学生对空气并不陌生：吹风车、吹气球、潜水憋气都是生活经验。但\"空气是一种物质\"这个判断需要证据支撑。",
+        principle:"空气看不见、摸不着，却真实存在于我们周围，并且会充满各处。",
+        examples:"吹鼓的气球、鼓起的风帆、轮胎里的气、水里的气泡、海绵里的空隙。",
+        board:
+          '<h4>🌬 情境导入：看不见的客人</h4>'+
+          '<svg class="mini-svg" viewBox="0 0 520 210" xmlns="http://www.w3.org/2000/svg">'+
+            '<rect x="0" y="170" width="520" height="40" fill="#d8e8de"/>'+
+            '<g><ellipse cx="70" cy="80" rx="34" ry="42" fill="#f3a6b5" stroke="#c05a72" stroke-width="2"/>'+
+            '<path d="M66 122 L74 122 L71 150 L69 150 Z" fill="#c05a72"/>'+
+            '<text x="70" y="196" text-anchor="middle" font-size="13" fill="#14614a">气球鼓起来</text></g>'+
+            '<g><circle cx="170" cy="90" r="30" fill="none" stroke="#4aa3d8" stroke-width="2"/>'+
+            '<path d="M170 60 L200 90 L170 120 L140 90 Z" fill="#a8d8f0" stroke="#4aa3d8" stroke-width="2"/>'+
+            '<circle cx="170" cy="90" r="5" fill="#2c6f53"/>'+
+            '<animateTransform attributeName="transform" type="rotate" from="0 170 90" to="360 170 90" dur="6s" repeatCount="indefinite"/>'+
+            '<text x="170" y="196" text-anchor="middle" font-size="13" fill="#14614a">风车转起来</text></g>'+
+            '<g><ellipse cx="290" cy="130" rx="52" ry="26" fill="#cfe6da" stroke="#5f9e83" stroke-width="2"/>'+
+            '<circle cx="270" cy="145" r="4" fill="#4aa3d8"><animate attributeName="cy" values="145;95;145" dur="2.4s" repeatCount="indefinite"/></circle>'+
+            '<circle cx="295" cy="150" r="3" fill="#4aa3d8"><animate attributeName="cy" values="150;105;150" dur="3s" repeatCount="indefinite"/></circle>'+
+            '<circle cx="315" cy="148" r="3.5" fill="#4aa3d8"><animate attributeName="cy" values="148;100;148" dur="2.7s" repeatCount="indefinite"/></circle>'+
+            '<text x="290" y="196" text-anchor="middle" font-size="13" fill="#14614a">水里有气泡</text></g>'+
+            '<g><rect x="380" y="112" width="86" height="52" rx="6" fill="#f7d774" stroke="#c99a1e" stroke-width="2"/>'+
+            '<ellipse cx="405" cy="128" rx="6" ry="4" fill="#e0b23c"/><ellipse cx="432" cy="140" rx="5" ry="3" fill="#e0b23c"/>'+
+            '<ellipse cx="392" cy="148" rx="5" ry="3" fill="#e0b23c"/><ellipse cx="446" cy="122" rx="4" ry="3" fill="#e0b23c"/>'+
+            '<text x="423" y="196" text-anchor="middle" font-size="13" fill="#14614a">海绵藏空气</text></g>'+
+          '</svg>'+
+          '<div class="q"><b>核心问题：</b>空气是否有质量并占有一定的空间？空气存在于哪些地方？</div>'+
+          '<p><b>我的猜想：</b>① 空气<b>有</b>质量；② 空气<b>占</b>空间；③ 空气<b>会充满各处</b>。</p>'+
+          '<p><b>怎么证明？</b>这节课我们用 5 个任务来搜集证据：倒水实验、弹性塑料瓶、软塑料包、称量皮球、挤干海绵。</p>'+
+          '<div class="con"><b>学习方法：</b>提出问题 → 制订计划 → 搜集证据 → 得出结论。每一步都要如实记录看到的现象！</div>'
+      },
+      {
+        id:"t1", title:"任务一：空气是否占有空间", module:"bottle",
+        equip:"透明塑料瓶、漏斗、橡皮泥、水杯、清水、抹布",
+        equipOpts:["透明塑料瓶","漏斗","橡皮泥","水杯"],
+        plans:[{id:"sealed",label:"橡皮泥密封"},{id:"open",label:"取下橡皮泥（对比）"}],
+        analysis:"密封后水积在漏斗里下不去，说明瓶里的空气没有出口，一直占着瓶内的空间；取下橡皮泥，空气从缝隙跑出（冒气泡），水就顺畅流进瓶中。",
+        principle:"空气虽然看不见、摸不着，但它是一种真实存在的物质，和固体、液体一样占有确定的空间。",
+        examples:"注射器堵住出口推不动活塞；往瓶里灌水时瓶口\"咕噜\"冒气泡；充气城堡鼓起来。",
+      },
+      {
+        id:"t2", title:"任务二：有弹性的塑料瓶", module:"plastic",
+        equip:"有弹性的空塑料瓶、漏斗、橡皮泥、清水、水壶",
+        equipOpts:["空塑料瓶（软）","漏斗","橡皮泥","水壶"],
+        plans:[{id:"open",label:"缝隙通畅"},{id:"sealed",label:"橡皮泥封口"}],
+        analysis:"缝隙通畅时空气能跑出去，水顺利流下，气压保持平衡；封严后空气出不去被压缩，瓶内气压升高，像一只无形的手把水顶住——水就只能进去一点点。",
+        principle:"水能不能流下去，关键看瓶内的空气能不能顺利排出去；被压缩的空气会产生向外的力。",
+        examples:"茶壶盖上有个小孔，才能倒出顺畅的水；油桶倒油时要留进气口；鱼缸换水时插根管子让空气进出。",
+      },
+      {
+        id:"t3", title:"任务三：软塑料包实验", module:"softbag",
+        equip:"软塑料包（或软塑料袋）、漏斗、橡皮筋、清水",
+        equipOpts:["软塑料包","自封袋","漏斗","橡皮筋"],
+        plans:[{id:"squeeze",label:"按住挤压"},{id:"release",label:"松手回弹"},{id:"auto",label:"一压一吸（泵效应）"}],
+        analysis:"挤压软包时体积变小，里面空气被压缩、气压升高，空气从缝隙被挤出；松手时软包回弹、体积变大，气压低于外界（负压），外面的水就被\"吸\"了进来。",
+        principle:"改变气体的体积会改变它的气压：体积变小气压升高，体积变大气压降低；气压差推动水和空气流动。",
+        examples:"滴管吸水、注射器抽药液、打气筒打气、吸管喝饮料、拔火罐。",
+      },
+      {
+        id:"t4", title:"任务四：空气是否有一定的质量", module:"mass",
+        equip:"小皮球、打气筒（气针）、电子秤（精度 0.01 g）、记录单",
+        equipOpts:["小皮球","打气筒","电子秤","记录单"],
+        plans:[{id:"full",label:"充满空气的皮球"},{id:"empty",label:"放出空气的皮球"}],
+        analysis:"皮球的橡胶外壳质量不变，唯一变化的是里面空气的多少。充满空气时 36.24 g，放气后 35.34 g，减少的 0.90 g 正是被放掉的那部分空气。",
+        principle:"空气是有质量的物质。平时感觉不到，只是因为同样体积的空气比水、铁轻得多。1 cm³ 空气约 0.00129 g。",
+        examples:"给自行车胎打气后轮胎变重；热气球靠加热空气变轻上升；教室里的空气总质量可达上百千克。",
+      },
+      {
+        id:"t5", title:"任务五：干海绵里是否藏有空气", module:"sponge",
+        equip:"干海绵、湿海绵（对比）、透明保鲜袋、扎带、水槽（拓展）",
+        equipOpts:["干海绵","湿海绵","透明保鲜袋","扎带"],
+        plans:[{id:"dry",label:"干海绵"},{id:"wet",label:"湿海绵（对比）"}],
+        analysis:"保鲜袋已密封，外面的空气进不来；用力挤压海绵后袋子却鼓了起来，说明多出来的空气只能来自海绵内部的小孔。湿海绵的小孔被水占据，挤出来的空气明显变少。",
+        principle:"空气会充满各处，藏在海绵、土壤、水等许多物体的空隙里；看起来\"实心\"的物体内部也有空气。",
+        examples:"土块放进水里冒气泡；面包、砖块、棉花里都有空气；冷冻食品保鲜要抽走包装里的空气。",
+      },
+      {
+        id:"concl", title:"研讨交流：实验结论", module:"board",
+        equip:"各组记录单、汇总表",
+        equipOpts:["记录单","汇总表"],
+        plans:[{id:"k1",label:"空气占有空间"},{id:"k2",label:"空气有质量"},{id:"k3",label:"空气充满各处"}],
+        analysis:"三个任务层层递进：倒水实验说明空气占空间，称量实验说明空气有质量，海绵实验说明空气会充满各处。",
+        principle:"大概念：空气和固体、液体一样，是有质量并占据空间的物质，会充满各处。",
+        examples:"倒水进不去（占空间）｜皮球放气后变轻（有质量）｜海绵挤出气泡（充满各处）。",
+        board:
+          '<h4>🧭 我们的证据墙</h4>'+
+          '<table><tr><th>实验</th><th>看到的现象</th><th>说明什么</th></tr>'+
+          '<tr><td>瓶 + 漏斗 + 橡皮泥</td><td>水在漏斗里积满，流不进瓶里</td><td>空气占有空间</td></tr>'+
+          '<tr><td>称量皮球</td><td>放气后示数变小 0.90 g</td><td>空气有质量</td></tr>'+
+          '<tr><td>挤压干海绵</td><td>密封的保鲜袋鼓起来</td><td>空隙里藏着空气</td></tr>'+
+          '<tr><td>土壤入水</td><td>土块表面冒出气泡</td><td>空气充满各处</td></tr></table>'+
+          '<div class="con"><b>三条关键结论：</b><br>① 空气<b>占有一定的空间</b>；<br>② 空气<b>有质量</b>；<br>③ 空气<b>会充满各处</b>。</div>'+
+          '<div class="q"><b>科学史小窗：</b>空气的\"重量\"之争——人们很早就会利用风力，但直到用天平称出充气皮球更重，才用证据确认了空气有质量。</div>'+
+          '<p><b>用示意图表达：</b>用\"·\"表示水，用\"○\"表示空气，把瓶子里的样子画在记录单上。</p>'
+      },
+      {
+        id:"home", title:"课后任务：吹大瓶里的气球", module:"balloon",
+        equip:"透明空塑料瓶、小气球、钉子（或气针）、垫布",
+        equipOpts:["透明空塑料瓶","小气球","钉子"],
+        plans:[{id:"nohole",label:"密封瓶（无孔）"},{id:"hole",label:"瓶底开孔"}],
+        analysis:"密封瓶中，气球要鼓大必须把瓶内空气挤出去，可空气没有出口，所以吹不大；在瓶底开一个小孔后，空气有了出口，气球就能被吹大。",
+        principle:"空气占有空间，并且可以流动；只要给它留一条出路，\"被占的空间\"就能让出来。",
+        examples:"瓶底开孔后气球吹得大；茶壶盖小孔让水流畅；给鱼缸换水时空气要能进出。",
+      }
+    ]
+  };
+}
+let LESSON = loadLesson();
+function loadLesson(){
+  try{
+    const s = localStorage.getItem(STORE_KEY);
+    if(!s) return defaultLesson();
+    const d = JSON.parse(s);
+    if(!d.sections || !d.sections.length) return defaultLesson();
+    return d;
+  }catch(e){ return defaultLesson(); }
+}
+function saveLesson(silent){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(LESSON)); if(!silent) tip("✅ 已保存到本地"); }
+  catch(e){ tip("⚠️ 保存失败，请用「导出」备份"); }
+}
+function tip(msg){
+  const t=$("tbTip"); t.textContent=msg;
+  clearTimeout(tip._t); tip._t=setTimeout(()=>{ t.textContent="左侧点击环节切换 · 右侧切换实验方案 · 下方控制实验步骤"; },3200);
+}
+function sec(){ return LESSON.sections.find(s=>s.id===LESSON.activeId) || LESSON.sections[0]; }
+
+/* ==================== 实验模块：SVG 场景 ==================== */
+const AIR_DOT = '<circle cx="{x}" cy="{y}" r="{r}" fill="#4aa3d8" opacity=".65"><animate attributeName="cy" values="{y};{y2};{y}" dur="{d}" repeatCount="indefinite"/></circle>';
+function airDots(list){
+  return list.map(a=>AIR_DOT.replace("{x}",a[0]).replace("{y}",a[1]).replace("{r}",a[2]).replace("{y2}",a[1]-14).replace("{d}",(a[3]||2.6)+"s")).join("");
+}
+const TABLE = '<rect x="0" y="368" width="700" height="62" fill="#cbd9cf"/><line x1="0" y1="368" x2="700" y2="368" stroke="#8aa695" stroke-width="2"/>';
+const REAL_DEFS = '<defs>'+
+  '<linearGradient id="petGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a9d8c6" stop-opacity=".6"/><stop offset="20%" stop-color="#f4fff9" stop-opacity=".4"/><stop offset="50%" stop-color="#cdeede" stop-opacity=".2"/><stop offset="100%" stop-color="#9ccdb9" stop-opacity=".6"/></linearGradient>'+
+  '<linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#bcd9e8" stop-opacity=".92"/><stop offset="24%" stop-color="#ffffff" stop-opacity=".96"/><stop offset="55%" stop-color="#aed2e6" stop-opacity=".8"/><stop offset="100%" stop-color="#8fb9ce" stop-opacity=".92"/></linearGradient>'+
+  '<linearGradient id="metalGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8b969d"/><stop offset="26%" stop-color="#f3f7fa"/><stop offset="52%" stop-color="#b6c1c8"/><stop offset="78%" stop-color="#eef3f6"/><stop offset="100%" stop-color="#7e898f"/></linearGradient>'+
+  '<radialGradient id="rubberGrad" cx="36%" cy="30%" r="75%"><stop offset="0%" stop-color="#ffb0a0"/><stop offset="50%" stop-color="#e0564a"/><stop offset="100%" stop-color="#a8281b"/></radialGradient>'+
+  '<linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7fc8ec"/><stop offset="100%" stop-color="#2f87b6"/></linearGradient>'+
+  '<linearGradient id="bagGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e8f6ff" stop-opacity=".55"/><stop offset="100%" stop-color="#bfe0f0" stop-opacity=".35"/></linearGradient>'+
+  '<linearGradient id="lcdGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0c2a1e"/><stop offset="100%" stop-color="#06140f"/></linearGradient>'+
+  '<radialGradient id="clayGrad" cx="40%" cy="35%" r="75%"><stop offset="0%" stop-color="#ffb066"/><stop offset="100%" stop-color="#cc6a1f"/></radialGradient>'+
+  '<radialGradient id="spongeGrad" cx="38%" cy="32%" r="80%"><stop offset="0%" stop-color="#ffe27a"/><stop offset="100%" stop-color="#e0b52e"/></radialGradient>'+
+  '</defs>';
+function scene(inner){ return '<svg class="scene" viewBox="0 0 700 430" xmlns="http://www.w3.org/2000/svg">'+REAL_DEFS+inner+'</svg>'; }
+
+/* ---------- 任务一：瓶 + 漏斗 + 橡皮泥 ---------- */
+const bottleMod = {
+  scene(){
+    return scene(
+      '<defs>'+
+        '<clipPath id="c1-bottle"><path d="M252 200 L252 350 L368 350 L368 200 L348 200 L348 182 L272 182 L272 200 Z"/></clipPath>'+
+        '<clipPath id="c1-funnel"><path d="M258 84 L362 84 L332 150 L288 150 Z M292 150 L328 150 L322 196 L298 196 Z"/></clipPath>'+
+      '</defs>'+
+      TABLE+
+      /* 透明塑料瓶（真实 PET 瓶：瓶身螺纹、棱纹、高光） */
+      '<g class="obj3d" id="o-bottle">'+
+      '<g clip-path="url(#c1-bottle)">'+
+        '<g id="b-air">'+airDots([[288,300,3,2.4],[318,320,2.5,3],[300,262,3,2.8],[330,280,2.5,3.2],[280,236,2.5,2.6],[340,240,2,2.2],[310,212,2.2,2.9]])+'</g>'+
+        '<rect id="b-bw" x="254" y="348" width="112" height="0" fill="url(#waterGrad)" opacity=".82"/>'+
+        '<g id="b-bub" opacity="0"><circle cx="300" cy="330" r="5" fill="none" stroke="#2f87b6" stroke-width="2"><animate attributeName="cy" values="330;230" dur="1.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.4s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="330" cy="336" r="4" fill="none" stroke="#2f87b6" stroke-width="2"><animate attributeName="cy" values="336;236" dur="1.7s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.7s" repeatCount="indefinite"/></circle></g>'+
+      '</g>'+
+      '<path d="M252 200 L252 350 L368 350 L368 200 L348 200 L348 182 L272 182 L272 200 Z" fill="url(#petGrad)" stroke="#2c6f53" stroke-width="2.5"/>'+
+      '<path d="M259 214 L259 344" stroke="#ffffff" stroke-width="6" opacity=".5" stroke-linecap="round"/>'+
+      '<g stroke="#7fae99" stroke-width="1.4" opacity=".85"><line x1="282" y1="187" x2="338" y2="187"/><line x1="280" y1="191" x2="340" y2="191"/><line x1="278" y1="195" x2="342" y2="195"/></g>'+
+      '<g stroke="#9ccdb9" stroke-width="1.2" opacity=".55"><line x1="256" y1="336" x2="364" y2="336"/><line x1="256" y1="342" x2="364" y2="342"/></g>'+
+      '<ellipse cx="310" cy="352" rx="60" ry="5" fill="#000" opacity=".14"/>'+
+      '<text id="b-airlabel" x="310" y="286" text-anchor="middle" font-size="13" font-weight="bold" fill="#0e5a42" opacity=".9">空气</text>'+
+      '</g>'+
+      /* 漏斗（金属） */
+      '<g class="obj3d" id="b-funnel" opacity="0">'+
+        '<path d="M256 82 L364 82 L330 150 L290 150 Z" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2"/>'+
+        '<path d="M290 150 L330 150 L324 200 L296 200 Z" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2"/>'+
+        '<ellipse cx="310" cy="82" rx="54" ry="7" fill="#dde6ea" stroke="#56666d" stroke-width="2"/>'+
+        '<ellipse cx="310" cy="80" rx="44" ry="4.5" fill="#fff" opacity=".5"/>'+
+        '<path d="M266 92 L300 146" stroke="#ffffff" stroke-width="3" opacity=".55" stroke-linecap="round"/>'+
+        '<text x="310" y="222" text-anchor="middle" font-size="12.5" fill="#0e5a42">漏斗</text>'+
+      '</g>'+
+      /* 漏斗里的水 */
+      '<g id="b-fw" opacity="0"><rect id="b-fwr" x="256" y="148" width="108" height="0" fill="url(#waterGrad)" opacity=".85" clip-path="url(#c1-funnel)"/>'+
+        '<ellipse id="b-fws" cx="310" cy="148" rx="42" ry="3" fill="#bfe6f7" opacity=".9"/></g>'+
+      /* 橡皮泥（封口） */
+      '<g class="obj3d" id="b-clay" opacity="0">'+
+        '<path d="M266 168 Q310 156 354 168 Q374 184 352 200 Q310 212 266 200 Q244 184 266 168 Z" fill="url(#clayGrad)" stroke="#9c4f15" stroke-width="2"/>'+
+        '<ellipse cx="300" cy="176" rx="20" ry="6" fill="#ffd9a8" opacity=".5"/>'+
+        '<g fill="#9c4f15" opacity=".4"><circle cx="290" cy="188" r="1.6"/><circle cx="312" cy="184" r="1.6"/><circle cx="328" cy="190" r="1.6"/><circle cx="300" cy="194" r="1.6"/></g>'+
+        '<text x="310" y="230" text-anchor="middle" font-size="12.5" fill="#9c4f15">橡皮泥封口</text>'+
+      '</g>'+
+      /* 验漏吹气 */
+      '<g id="b-breath" opacity="0"><path d="M310 38 L310 72" stroke="#4aa3d8" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 5"><animate attributeName="stroke-dashoffset" from="20" to="0" dur=".7s" repeatCount="indefinite"/></path>'+
+        '<text x="356" y="58" font-size="13" font-weight="bold" fill="#c0392b">吹气 · 顶住吹不动</text></g>'+
+      /* 烧杯（装水） */
+      '<g class="obj3d" id="o-cup"><g id="b-cup" transform="translate(486 250)">'+
+        '<ellipse cx="46" cy="92" rx="46" ry="5" fill="#000" opacity=".14"/>'+
+        '<path d="M10 4 L10 84 L82 84 L82 4 L70 4 L70 -10 L22 -10 L22 4 Z" fill="url(#glassGrad)" stroke="#5b7d8c" stroke-width="2.5"/>'+
+        '<ellipse cx="46" cy="4" rx="36" ry="5.5" fill="#e6f4fa" stroke="#5b7d8c" stroke-width="2"/>'+
+        '<g stroke="#3a6473" stroke-width="1.4" opacity=".8"><line x1="22" y1="28" x2="34" y2="28"/><line x1="22" y1="48" x2="34" y2="48"/><line x1="22" y1="68" x2="34" y2="68"/></g>'+
+        '<path id="b-cupw" d="M12 84 L12 18 Q46 24 80 18 L80 84 Z" fill="url(#waterGrad)" opacity=".82"/>'+
+        '<ellipse cx="46" cy="18" rx="34" ry="4.5" fill="#bfe6f7" opacity=".75"/>'+
+        '<text x="46" y="112" text-anchor="middle" font-size="12.5" fill="#0e5a42">烧杯（装水）</text>'+
+      '</g></g>'+
+      /* 水流 */
+      '<g id="b-flow" opacity="0"><path d="M512 232 Q 486 150 400 112 Q 350 92 320 90" fill="none" stroke="url(#waterGrad)" stroke-width="6" stroke-linecap="round" opacity=".92"/>'+
+        '<path d="M512 232 Q 486 150 400 112 Q 350 92 320 90" fill="none" stroke="#eaf7ff" stroke-width="2.4" stroke-dasharray="8 6"><animate attributeName="stroke-dashoffset" from="0" to="-28" dur=".55s" repeatCount="indefinite"/></path></g>'+
+      /* 溢出 */
+      '<g id="b-ovf" opacity="0"><path d="M256 96 Q 238 140 232 190" fill="none" stroke="url(#waterGrad)" stroke-width="5" stroke-linecap="round" opacity=".9"/>'+
+        '<path d="M364 96 Q 382 140 388 190" fill="none" stroke="url(#waterGrad)" stroke-width="5" stroke-linecap="round" opacity=".9"/>'+
+        '<circle cx="232" cy="212" r="4" fill="#4aa3d8"><animate attributeName="cy" values="212;300;212" dur="1.4s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="388" cy="212" r="4" fill="#4aa3d8"><animate attributeName="cy" values="212;300;212" dur="1.7s" repeatCount="indefinite"/></circle>'+
+        '<text x="310" y="128" text-anchor="middle" font-size="13" font-weight="bold" fill="#c0392b">水溢出来了！</text></g>'+
+      '<text x="310" y="404" text-anchor="middle" font-size="13" font-weight="600" fill="#14614a">瓶子 + 漏斗 + 橡皮泥（密封整体）</text>'
+    );
+  },
+  init(){ this.sealed = true; },
+  setPlan(id, ctx){ this.sealed = (id!=="open"); ctx.rebuild(); },
+  steps(ctx){
+    const s = this.sealed;
+    const arr = [
+      {t:"【准备】透明塑料瓶、漏斗、橡皮泥、装满水的水杯、抹布，整齐摆在实验台上。", ms:1800, act:()=>this.reset()},
+      {t:"【步骤1】取一个透明塑料瓶，平稳放在桌面上；用抹布把桌面擦干，防止打滑。", ms:1700, act:async()=>{ const g=$("b-airlabel"); if(g) g.style.opacity="1"; }},
+      {t:"【步骤2】把漏斗的细管一端向下插入瓶口，让漏斗稳稳立在瓶口上方。", ms:1700, act:async()=>{ await fade("b-funnel",1,450); }},
+      {t:"【步骤3·关键】取一小块橡皮泥，沿瓶口与漏斗之间的环形缝隙均匀填满、压实，使瓶子和漏斗连成密闭整体。", ms:2000, act:async()=>{ await fade("b-clay",1,450); }}
+    ];
+    if(s){
+      arr.push(
+        {t:"【步骤4·验漏】对着漏斗口轻轻吹一口气——感觉有气顶住、吹不动，说明密封良好，可以开始倒水了。", ms:2000, act:async()=>{ await fade("b-breath",1,400); }},
+        {t:"【步骤5】另取一只水杯，装满清水；拿起水杯，准备快速、稳定地倒入漏斗。", ms:1500, act:async()=>{ await fade("b-breath",0,300); const c=$("b-cup"); if(c){ c.style.transition="transform .7s ease"; c.style.transform="translate(470 196) rotate(-26 46 40)"; } }},
+        {t:"【步骤6】快速倒水！眼睛同时盯着漏斗口和瓶内，认真记录看到的现象。", ms:1500, act:async()=>{ await fade("b-flow",1,350); }},
+        {t:"【现象1】水在漏斗中迅速积满，却下不去——漏斗里的水面一直没有下降。", ms:2200, act:async()=>{ await fade("b-fw",1,350); await tween(900, p=>{ setA("b-fwr","y",148-58*p); setA("b-fwr","height",58*p); setA("b-fws","cy",148-58*p); setA("b-fws","rx",42-8*p); }); }},
+        {t:"【现象2】继续倒水，水无法进入瓶中，大量水从漏斗口溢出；透过瓶壁看，瓶内水位几乎没有变化，仍然充满空气。", ms:2600, act:async()=>{ await fade("b-ovf",1,400); }},
+        {t:"【现象3】停止倒水，漏斗里依然存着一大截水——它就这样被瓶里的空气\"托\"住了。", ms:2000, act:async()=>{ await fade("b-flow",0,300); }},
+        {t:"【结论】水不能全部流下去！瓶里的空气被橡皮泥封住、无处可去，一直占据着瓶内的空间 → 空气占有空间。可在右侧切换到「取下橡皮泥（对比）」再看一次。", ms:2600, act:async()=>{ await fade("b-ovf",0,300); }}
+      );
+    }else{
+      arr.push(
+        {t:"【对比实验】把橡皮泥取下，让瓶口与漏斗之间留出通畅的缝隙，其余条件完全不变。", ms:1900, act:async()=>{ await fade("b-clay",0,400); await fade("b-funnel",1,200); }},
+        {t:"【步骤5】用同一杯水，同样快速、稳定地倒入漏斗。", ms:1500, act:async()=>{ const c=$("b-cup"); if(c){ c.style.transition="transform .7s ease"; c.style.transform="translate(470 196) rotate(-26 46 40)"; } await fade("b-flow",1,350); }},
+        {t:"【现象1】水顺畅地流进瓶中，瓶内水位迅速上升。", ms:2400, act:async()=>{ await tween(2000, p=>{ setA("b-bw","y",348-130*p); setA("b-bw","height",130*p); setA("b-airlabel","y",286-52*p); }); }},
+        {t:"【现象2】同时能听到\"咕噜咕噜\"的声音，瓶里的空气正从缝隙钻出来，冒出一串串气泡。", ms:2400, act:async()=>{ await fade("b-bub",1,300); }},
+        {t:"【现象3】漏斗里的水完全流光，杯中的水几乎全部进了瓶子。", ms:2000, act:async()=>{ await fade("b-flow",0,300); await fade("b-fw",0,300); }},
+        {t:"【结论】对比说明：空气能跑出去时水就流得下去，空气出不去时水就流不下去 —— 瓶里的空气确实占据着空间。", ms:2600, act:async()=>{}}
+      );
+    }
+    return arr;
+  },
+  async reset(){
+    this.sealed = true;
+    ["b-funnel","b-fw","b-clay","b-breath","b-flow","b-ovf","b-bub"].forEach(id=>{ const e=$(id); if(e){ e.style.transition="none"; e.style.opacity="0"; }});
+    setA("b-fwr","y",148); setA("b-fwr","height",0); setA("b-fws","cy",148); setA("b-fws","rx",42);
+    setA("b-bw","y",348); setA("b-bw","height",0); setA("b-airlabel","y",286);
+    const c=$("b-cup"); if(c){ c.style.transition="none"; c.style.transform="translate(486 250)"; }
+  }
+};
+
+/* ---------- 任务二：有弹性的塑料瓶 ---------- */
+const plasticMod = {
+  scene(){
+    return scene(
+      '<defs><clipPath id="c2-bottle"><path d="M266 176 L266 208 L250 240 L250 356 L370 356 L370 240 L354 208 L354 176 Z"/></clipPath>'+
+        '<clipPath id="c2-funnel"><path d="M272 76 L348 76 L326 132 L294 132 Z M296 132 L324 132 L320 176 L300 176 Z"/></clipPath>'+
+        '<marker id="c2ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#c0392b"/></marker></defs>'+
+      TABLE+
+      '<g class="obj3d" id="o-pbottle"><g id="p-squish"><g clip-path="url(#c2-bottle)">'+
+        '<g id="p-air">'+airDots([[300,330,3,2.4],[330,300,2.5,3],[290,270,3,2.6],[340,260,2.5,3.1],[310,230,2.5,2.8]])+'</g>'+
+        '<rect id="p-bw" x="252" y="356" width="116" height="0" fill="url(#waterGrad)" opacity=".82"/>'+
+        '<g id="p-bub" opacity="0"><circle cx="300" cy="300" r="6" fill="none" stroke="#2f87b6" stroke-width="2"><animate attributeName="cy" values="300;200" dur="1.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.3s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="336" cy="310" r="4.5" fill="none" stroke="#2f87b6" stroke-width="2"><animate attributeName="cy" values="310;210" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.6s" repeatCount="indefinite"/></circle></g>'+
+      '</g>'+
+      '<path d="M266 176 L266 208 L250 240 L250 356 L370 356 L370 240 L354 208 L354 176 Z" fill="url(#petGrad)" stroke="#2c6f53" stroke-width="2.5"/>'+
+      '<path d="M258 226 L258 350" stroke="#ffffff" stroke-width="6" opacity=".5" stroke-linecap="round"/>'+
+      '<g stroke="#7fae99" stroke-width="1.4" opacity=".85"><line x1="278" y1="183" x2="342" y2="183"/><line x1="276" y1="187" x2="344" y2="187"/><line x1="274" y1="191" x2="346" y2="191"/></g>'+
+      '<g stroke="#9ccdb9" stroke-width="1.2" opacity=".55"><line x1="256" y1="344" x2="364" y2="344"/><line x1="256" y1="350" x2="364" y2="350"/><line x1="260" y1="250" x2="360" y2="250"/></g>'+
+      '<ellipse cx="310" cy="358" rx="62" ry="5" fill="#000" opacity=".14"/>'+
+      '<text id="p-airlabel" x="310" y="300" text-anchor="middle" font-size="13" font-weight="bold" fill="#0e5a42" opacity=".85">空气</text>'+
+      /* 缝隙标记 */
+      '<g id="p-gap"><rect id="p-gapl" x="262" y="180" width="12" height="8" rx="2" fill="#2e9e6b" opacity=".9"/>'+
+        '<rect id="p-gapr" x="356" y="180" width="12" height="8" rx="2" fill="#2e9e6b" opacity=".9"/></g>'+
+      '</g></g>'+
+      '<g class="obj3d" id="p-funnel"><path d="M272 76 L348 76 L326 132 L294 132 Z" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2.5"/>'+
+        '<path d="M296 130 L324 130 L320 176 L300 176 Z" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2.5"/>'+
+        '<ellipse cx="310" cy="76" rx="38" ry="5" fill="#dde6ea" stroke="#56666d" stroke-width="2"/>'+
+        '<path d="M280 86 L304 126" stroke="#fff" stroke-width="2.5" opacity=".5" stroke-linecap="round"/></g>'+
+      '<g id="p-fw" opacity="0"><rect id="p-fwr" x="270" y="130" width="80" height="0" fill="url(#waterGrad)" opacity=".85" clip-path="url(#c2-funnel)"/>'+
+        '<ellipse id="p-fws" cx="310" cy="130" rx="33" ry="3" fill="#bfe6f7" opacity=".9"/></g>'+
+      '<g class="obj3d" id="p-clay" opacity="0"><path d="M268 170 Q310 158 352 170 Q372 184 352 198 Q310 210 268 198 Q248 184 268 170 Z" fill="url(#clayGrad)" stroke="#9c4f15" stroke-width="2"/>'+
+        '<ellipse cx="300" cy="178" rx="18" ry="5" fill="#ffd9a8" opacity=".5"/></g>'+
+      '<g id="p-flow" opacity="0"><path d="M470 150 Q 420 110 340 92" fill="none" stroke="url(#waterGrad)" stroke-width="6" stroke-linecap="round" opacity=".92"/>'+
+        '<path d="M470 150 Q 420 110 340 92" fill="none" stroke="#eaf7ff" stroke-width="2.4" stroke-dasharray="8 6"><animate attributeName="stroke-dashoffset" from="0" to="-28" dur=".55s" repeatCount="indefinite"/></path></g>'+
+      '<g class="obj3d" id="p-kettle" opacity="0">'+
+        '<ellipse cx="492" cy="118" rx="34" ry="10" fill="#000" opacity=".12"/>'+
+        '<path d="M462 96 Q460 150 492 150 Q524 150 522 96 Z" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2.5"/>'+
+        '<path d="M462 100 Q452 104 446 120 Q444 132 452 140" fill="none" stroke="#56666d" stroke-width="6" stroke-linecap="round"/>'+
+        '<path d="M520 100 Q540 80 552 92 Q548 104 528 110" fill="none" stroke="#56666d" stroke-width="6" stroke-linecap="round"/>'+
+        '<path d="M474 96 Q492 86 510 96" fill="none" stroke="#56666d" stroke-width="5"/>'+
+        '<ellipse cx="492" cy="96" rx="20" ry="6" fill="#dde6ea" stroke="#56666d" stroke-width="2"/>'+
+        '<path d="M474 110 Q488 124 508 110" stroke="#fff" stroke-width="3" opacity=".5" fill="none"/>'+
+        '<text x="492" y="178" text-anchor="middle" font-size="12.5" fill="#0e5a42">水壶</text></g>'+
+      '<g id="p-arrows" opacity="0"><path d="M296 300 L296 240" stroke="#c0392b" stroke-width="3.5" fill="none" marker-end="url(#c2ar)"/>'+
+        '<path d="M324 300 L324 240" stroke="#c0392b" stroke-width="3.5" fill="none" marker-end="url(#c2ar)"/>'+
+        '<text x="310" y="222" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c0392b">被压缩的空气把水顶住</text></g>'+
+      '<g id="p-hand" opacity="0"><ellipse cx="240" cy="300" rx="30" ry="20" fill="#f7cfb8" stroke="#b4643c" stroke-width="2"/>'+
+        '<text x="240" y="344" text-anchor="middle" font-size="12" fill="#8a4b2a">捏一捏</text></g>'+
+      '<text x="310" y="404" text-anchor="middle" font-size="13" font-weight="600" fill="#14614a">有弹性的塑料瓶 + 漏斗</text>'
+    )+
+    '<div class="gauge" style="width:min(760px,72vh);margin-top:6px"><span>瓶内气压</span><span class="gbar"><i id="p-bar" style="width:50%"></i></span><b id="p-val">100%</b></div>';
+  },
+  init(){ this.mode="open"; },
+  setPlan(id, ctx){ this.mode = id==="sealed" ? "sealed" : "open"; ctx.rebuild(); },
+  setGauge(v){
+    const bar=$("p-bar"), val=$("p-val");
+    if(bar){ bar.style.width = Math.max(6,Math.min(100,v))+"%"; bar.style.background = v>112 ? "#c0392b" : (v>104 ? "#e8a33d" : "#3fae82"); }
+    if(val) val.textContent = Math.round(v)+"%";
+  },
+  steps(ctx){
+    const open = this.mode==="open";
+    const arr = [
+      {t:"【准备】有弹性的空塑料瓶、漏斗、橡皮泥、清水、水壶；把瓶子平稳放在桌面上。", ms:1800, act:()=>this.reset()},
+      {t:"【步骤1】把漏斗的细管向下插进瓶口。注意：漏斗和瓶口之间留着通气的缝隙。", ms:1700, act:async()=>{ await fade("p-funnel",1,400); this.setGauge(100); }},
+      {t:"【步骤2】拿起水壶，快速、稳定地把水倒进漏斗。", ms:1500, act:async()=>{ await fade("p-kettle",1,300); await fade("p-flow",1,350); await fade("p-fw",1,300); await tween(700,p=>{ setA("p-fwr","y",130-46*p); setA("p-fwr","height",46*p); setA("p-fws","cy",130-46*p); }); }}
+    ];
+    if(open){
+      arr.push(
+        {t:"【现象1】水顺畅地流进瓶中：瓶里的空气从瓶口缝隙跑出去，能看到一串串气泡往上冒。", ms:2400, act:async()=>{ await fade("p-bub",1,300); await tween(2200,p=>{ setA("p-bw","y",356-150*p); setA("p-bw","height",150*p); setA("p-airlabel","y",300-70*p); }); }},
+        {t:"【现象2】水位不断上升，瓶身被水撑得鼓鼓的、硬硬的——塑料瓶有弹性，能看出它微微鼓起。", ms:2100, act:async()=>{ const g=$("p-squish"); if(g){ g.style.transition="transform .8s ease"; g.style.transform="scale(1.03)"; } }},
+        {t:"【现象3】一壶水几乎全部流进瓶中，气压表始终保持 100%（内外气压平衡）。", ms:2000, act:async()=>{ await fade("p-flow",0,300); await fade("p-kettle",0,300); await fade("p-fw",0,300); this.setGauge(100); }},
+        {t:"【结论·缝隙通畅】空气跑得出去，水就流得下去。可在右侧切换「橡皮泥封口」做对比。", ms:2400, act:async()=>{}}
+      );
+    }else{
+      arr.push(
+        {t:"【步骤3·改变条件】把水倒掉，用橡皮泥把瓶口与漏斗之间的缝隙严严实实地封住，让空气一点也出不去。", ms:2100, act:async()=>{ await this.reset(); await wait(200); await fade("p-funnel",1,300); await fade("p-clay",1,400); const gl=$("p-gapl"),gr=$("p-gapr"); if(gl) gl.setAttribute("fill","#c0392b"); if(gr) gr.setAttribute("fill","#c0392b"); }},
+        {t:"【步骤4】再次快速倒水，眼睛盯着漏斗和瓶内水位。", ms:1500, act:async()=>{ await fade("p-kettle",1,300); await fade("p-flow",1,350); await fade("p-fw",1,300); await tween(700,p=>{ setA("p-fwr","y",130-46*p); setA("p-fwr","height",46*p); setA("p-fws","cy",130-46*p); }); }},
+        {t:"【现象1】水只流进去一点点就停住了！瓶内空气被压缩，气压升高到 135%，像一只无形的手把水顶住。", ms:2500, act:async()=>{ await tween(1600,p=>{ setA("p-bw","y",356-34*p); setA("p-bw","height",34*p); this.setGauge(100+35*p); setA("p-airlabel","y",300-16*p); }); await fade("p-arrows",1,400); }},
+        {t:"【现象2】漏斗里积着水下不去；此时用手捏一捏有弹性的塑料瓶，瓶内空间被挤小，水又会往下走一点（注意：瓶子位置始终没动，只是被捏扁了一点）。", ms:2500, act:async()=>{ await fade("p-hand",1,350); const g=$("p-squish"); if(g){ g.style.transition="transform .6s ease"; g.style.transform="scale(.945)"; } await tween(1200,p=>{ setA("p-bw","y",322-26*p); setA("p-bw","height",60*p); this.setGauge(135+22*p); }); }},
+        {t:"【现象3】一松手，瓶子回弹，水又被顶回去一点——弹性塑料瓶把\"压缩空气有力气\"这件事演得明明白白。", ms:2200, act:async()=>{ await fade("p-hand",0,300); const g=$("p-squish"); if(g){ g.style.transform="scale(1)"; } await tween(900,p=>{ this.setGauge(157-22*p); }); }},
+        {t:"【结论·橡皮泥封口】空气出不去被压缩，气压升高，水就流不下去。水能否流下去，关键看空气能不能排出去。", ms:2600, act:async()=>{ await fade("p-flow",0,300); await fade("p-kettle",0,300); }}
+      );
+    }
+    return arr;
+  },
+  async reset(){
+    ["p-funnel","p-fw","p-clay","p-flow","p-kettle","p-arrows","p-bub","p-hand"].forEach(id=>{ const e=$(id); if(e){ e.style.transition="none"; e.style.opacity="0"; }});
+    setA("p-fwr","y",130); setA("p-fwr","height",0); setA("p-fws","cy",130);
+    setA("p-bw","y",356); setA("p-bw","height",0); setA("p-airlabel","y",300);
+    const gl=$("p-gapl"),gr=$("p-gapr"); if(gl) gl.setAttribute("fill","#2e9e6b"); if(gr) gr.setAttribute("fill","#2e9e6b");
+    const g=$("p-squish"); if(g){ g.style.transition="none"; g.style.transform="scale(1)"; }
+    this.setGauge(100);
+  }
+};
+
+/* ---------- 任务三：软塑料包 ---------- */
+const softbagMod = {
+  scene(){
+    return scene(
+      '<defs><clipPath id="c3-bag"><path id="c3-bagclip" d="M232 200 C232 200 214 250 218 300 C222 352 402 352 406 300 C410 250 392 200 392 200 Z"/></clipPath>'+
+        '<clipPath id="c3-funnel"><path d="M276 72 L368 72 L344 126 L300 126 Z M302 126 L342 126 L338 172 L308 172 Z"/></clipPath>'+
+        '<marker id="c3ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#c0392b"/></marker>'+
+        '<marker id="c3ag" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#2e9e6b"/></marker></defs>'+
+      TABLE+
+      '<g class="obj3d" id="o-sbag">'+
+      '<g id="s-bag"><g clip-path="url(#c3-bag)">'+
+        '<g id="s-air">'+airDots([[270,300,3,2.4],[330,318,2.5,3],[300,270,3,2.7],[360,286,2.5,3.1],[350,240,2.5,2.5]])+'</g>'+
+        '<rect id="s-bw" x="216" y="352" width="196" height="0" fill="url(#waterGrad)" opacity=".8"/>'+
+        '<g id="s-bub" opacity="0"><circle cx="290" cy="300" r="6" fill="none" stroke="#2f87b6" stroke-width="2"><animate attributeName="cy" values="300;210" dur="1.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.3s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="352" cy="310" r="4.5" fill="none" stroke="#2f87b6" stroke-width="2"><animate attributeName="cy" values="310;220" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.6s" repeatCount="indefinite"/></circle></g>'+
+      '</g>'+
+      '<path id="s-bagpath" d="M232 200 C232 200 214 250 218 300 C222 352 402 352 406 300 C410 250 392 200 392 200 Z" fill="url(#bagGrad)" stroke="#7fb0c4" stroke-width="2.5"/>'+
+      '<path d="M236 232 Q224 270 226 312" stroke="#ffffff" stroke-width="5" opacity=".5" fill="none" stroke-linecap="round"/>'+
+      '<path id="s-dimpl" d="M226 268 Q214 288 226 308" stroke="#5f9e83" stroke-width="2.5" fill="none" opacity="0"/>'+
+      '<path id="s-dimpr" d="M398 268 Q410 288 398 308" stroke="#5f9e83" stroke-width="2.5" fill="none" opacity="0"/></g>'+
+      /* 自封袋拉链口 */
+      '<rect x="226" y="182" width="188" height="16" rx="4" fill="#cfe7f0" stroke="#7fb0c4" stroke-width="2"/>'+
+      '<rect x="226" y="186" width="188" height="4" fill="#9fc6d6" opacity=".8"/>'+
+      '<g id="s-band"><ellipse cx="324" cy="190" rx="46" ry="11" fill="none" stroke="#e65100" stroke-width="4.5"/>'+
+        '<ellipse cx="324" cy="190" rx="46" ry="11" fill="none" stroke="#ffb74d" stroke-width="1.6"/>'+
+        '<text x="324" y="222" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#bf360c">橡皮筋固定</text></g>'+
+      '</g>'+
+      '<g class="obj3d" id="s-funnel"><path d="M276 72 L368 72 L344 126 L300 126 Z" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2.5"/>'+
+        '<path d="M302 124 L342 124 L338 176 L308 176 Z" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2.5"/>'+
+        '<ellipse cx="322" cy="72" rx="46" ry="5.5" fill="#dde6ea" stroke="#56666d" stroke-width="2"/>'+
+        '<path d="M286 82 L312 120" stroke="#fff" stroke-width="2.5" opacity=".5" stroke-linecap="round"/></g>'+
+      '<g id="s-fw"><rect id="s-fwr" x="274" y="124" width="96" height="0" fill="url(#waterGrad)" opacity=".85" clip-path="url(#c3-funnel)"/>'+
+        '<ellipse id="s-fws" cx="322" cy="124" rx="38" ry="3" fill="#bfe6f7" opacity=".9"/></g>'+
+      '<g id="s-arrows" opacity="0"><path d="M300 300 L300 250" stroke="#c0392b" stroke-width="3.5" fill="none" marker-end="url(#c3ar)"/>'+
+        '<path d="M340 300 L340 250" stroke="#c0392b" stroke-width="3.5" fill="none" marker-end="url(#c3ar)"/>'+
+        '<text x="322" y="238" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c0392b">气压升高，顶住水</text></g>'+
+      '<g id="s-suck" opacity="0"><path d="M300 240 L300 300" stroke="#2e9e6b" stroke-width="3.5" fill="none" marker-end="url(#c3ag)"/>'+
+        '<path d="M340 240 L340 300" stroke="#2e9e6b" stroke-width="3.5" fill="none" marker-end="url(#c3ag)"/>'+
+        '<text x="322" y="228" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e7a52">气压降低，把水吸进来</text></g>'+
+      '<g id="s-hands" opacity="0"><ellipse cx="212" cy="286" rx="32" ry="21" fill="#f7cfb8" stroke="#b4643c" stroke-width="2"/>'+
+        '<ellipse cx="428" cy="286" rx="32" ry="21" fill="#f7cfb8" stroke="#b4643c" stroke-width="2"/></g>'+
+      '<text x="322" y="404" text-anchor="middle" font-size="13" font-weight="600" fill="#14614a">软塑料包（自封袋）+ 漏斗</text>'
+    )+
+    '<div class="gauge" style="width:min(760px,72vh);margin-top:6px"><span>包内气压</span><span class="gbar"><i id="s-bar" style="width:50%"></i></span><b id="s-val">100%</b></div>';
+  },
+  init(){ this.auto=null; },
+  setPlan(id, ctx){
+    if(id==="squeeze") this.squeeze();
+    else if(id==="release") this.release();
+    else if(id==="auto") this.toggleAuto();
+  },
+  setGauge(v){
+    const bar=$("s-bar"), val=$("s-val");
+    if(bar){ bar.style.width = Math.max(6,Math.min(100,v))+"%"; bar.style.background = v>112 ? "#c0392b" : (v<88 ? "#2e9e6b" : "#3fae82"); }
+    if(val) val.textContent = Math.round(v)+"%";
+  },
+  squeeze(){
+    const g=$("s-bag"); if(g){ g.style.transition="transform .24s ease"; g.style.transformOrigin="center top"; g.style.transform="translateY(6px) scaleY(.74)"; }
+    ["s-dimpl","s-dimpr"].forEach(id=>setA(id,"opacity",1));
+    fade("s-arrows",1,250); fade("s-suck",0,200); fade("s-bub",1,250); fade("s-hands",1,250);
+    this.setGauge(132); tip("🤏 正在挤压：体积变小 → 气压升高 → 空气被挤出");
+  },
+  release(){
+    const g=$("s-bag"); if(g){ g.style.transition="transform .28s ease"; g.style.transform="translateY(0) scaleY(1)"; }
+    ["s-dimpl","s-dimpr"].forEach(id=>setA(id,"opacity",0));
+    fade("s-arrows",0,250); fade("s-suck",1,250); fade("s-bub",0,200); fade("s-hands",0,300);
+    this.setGauge(74);
+    this.fill(26);
+    tip("🖐 松手回弹：体积变大 → 气压降低（负压）→ 水被吸进");
+  },
+  fill(h){
+    const cur = parseFloat($("s-bw") ? $("s-bw").getAttribute("height") : 0) || 0;
+    const to = Math.min(120, cur + h);
+    tween(700, p=>{ setA("s-bw","y",352-(cur+(to-cur)*p)); setA("s-bw","height",cur+(to-cur)*p); });
+  },
+  toggleAuto(){
+    if(this.auto){ clearInterval(this.auto); this.auto=null; tip("⏹ 已停止自动演示"); return; }
+    this.squeeze();
+    this.auto = setInterval(()=>{ if(!$("s-bag")) { clearInterval(this.auto); this.auto=null; return; } const s=$("s-bag"); (s.style.transform.indexOf("0.74")>-1) ? this.release() : this.squeeze(); },1150);
+    tip("🔁 自动演示中：一压一吸，像泵一样");
+  },
+  steps(){
+    return [
+      {t:"【准备】软塑料包（或自封袋）、漏斗、橡皮筋、清水，摆在实验台上。", ms:1800, act:()=>this.reset()},
+      {t:"【步骤1】把漏斗插进软塑料包的口，用橡皮筋轻轻固定，让漏斗站稳。", ms:1700, act:async()=>{ await fade("s-funnel",1,400); }},
+      {t:"【步骤2】往漏斗里倒一些水——水停在漏斗中，下不去（软包里已经充满了空气）。", ms:1900, act:async()=>{ await tween(800,p=>{ setA("s-fwr","y",124-44*p); setA("s-fwr","height",44*p); setA("s-fws","cy",124-44*p); }); }},
+      {t:"【步骤3·挤压】双手按住软包用力挤压：体积变小，里面的空气被压缩，气压升到 132%，空气从缝隙被挤出去，还冒出气泡，漏斗里的水被顶住。", ms:2600, act:async()=>{ this.squeeze(); await wait(1200); }},
+      {t:"【步骤4·松手】松开双手：软包回弹、体积变大，气压降到 74%（低于外界，形成负压），外面的水被\"吸\"进包内。", ms:2600, act:async()=>{ this.release(); await wait(1200); }},
+      {t:"【步骤5】反复一压一吸，软包就像一个\"泵\"，把漏斗里的水一点点吸进包里。点右侧「一压一吸（泵效应）」可连续观察。", ms:2600, act:async()=>{ this.toggleAuto(); await wait(1400); }},
+      {t:"【结论】改变体积就会改变气压：压小→气压升高→把空气挤出去；变大→气压降低→把水和空气吸进来。滴管、注射器、打气筒都是这个道理。", ms:2800, act:async()=>{ if(this.auto){ clearInterval(this.auto); this.auto=null; } }}
+    ];
+  },
+  controls(){
+    return [
+      {label:"🤏 按住挤压", hold:{down:()=>this.squeeze(), up:()=>this.release()}},
+      {label:"🔁 一压一吸", click:()=>this.toggleAuto()},
+      {label:"↻ 重置", click:()=>this.reset()}
+    ];
+  },
+  async reset(){
+    if(this.auto){ clearInterval(this.auto); this.auto=null; }
+    ["s-funnel","s-arrows","s-suck","s-bub","s-hands"].forEach(id=>{ const e=$(id); if(e){ e.style.transition="none"; e.style.opacity="0"; }});
+    setA("s-fwr","y",124); setA("s-fwr","height",0); setA("s-fws","cy",124);
+    setA("s-bw","y",352); setA("s-bw","height",0);
+    const g=$("s-bag"); if(g){ g.style.transition="none"; g.style.transform="translateY(0) scaleY(1)"; }
+    ["s-dimpl","s-dimpr"].forEach(id=>setA(id,"opacity",0));
+    const f=$("s-funnel"); if(f) f.style.opacity="1";
+    this.setGauge(100);
+  }
+};
+
+/* ---------- 任务四：空气是否有质量 ---------- */
+const massMod = {
+  scene(){
+    return scene(
+      TABLE+
+      /* 电子秤（真实数显厨房秤） */
+      '<g class="obj3d" id="o-scale">'+
+      '<ellipse cx="240" cy="336" rx="138" ry="8" fill="#000" opacity=".18"/>'+
+      /* 秤底座 */
+      '<path d="M110 322 L370 322 L356 360 L124 360 Z" fill="#37474f"/>'+
+      '<path d="M110 322 L370 322 L368 330 L112 330 Z" fill="#546e7a"/>'+
+      /* 秤盘 */
+      '<ellipse cx="240" cy="320" rx="124" ry="16" fill="#cfd8dc"/>'+
+      '<ellipse cx="240" cy="316" rx="124" ry="16" fill="#eceff1" stroke="#90a4ae" stroke-width="2"/>'+
+      '<ellipse cx="240" cy="316" rx="108" ry="12" fill="#b0bec5" opacity=".5"/>'+
+      /* 数显屏（LCD） */
+      '<rect x="396" y="306" width="180" height="52" rx="7" fill="#263238"/>'+
+      '<rect x="402" y="312" width="168" height="40" rx="4" fill="url(#lcdGrad)" stroke="#0a1f17" stroke-width="2"/>'+
+      '<text id="m-read" x="492" y="344" text-anchor="middle" fill="#5fd0a0" font-size="26" font-weight="700" font-family="Consolas,monospace">0.00</text>'+
+      '<text x="492" y="300" text-anchor="middle" font-size="10.5" fill="#90a4ae" font-family="Consolas,monospace">g</text>'+
+      /* 按键 */
+      '<circle cx="424" cy="376" r="6" fill="#90a4ae"/><circle cx="448" cy="376" r="6" fill="#90a4ae"/><circle cx="472" cy="376" r="6" fill="#90a4ae"/>'+
+      '<text x="240" y="392" text-anchor="middle" font-size="13" font-weight="600" fill="#14614a">电子秤（精度 0.01 g）</text>'+
+      '</g>'+
+      /* 皮球：充满空气（篮球） */
+      '<g class="obj3d" id="m-ball"><ellipse cx="240" cy="304" rx="86" ry="10" fill="#000" opacity=".15"/>'+
+        '<circle cx="240" cy="228" r="76" fill="url(#rubberGrad)" stroke="#8e2b20" stroke-width="2"/>'+
+        '<path d="M240 152 L240 304 M180 178 Q240 228 300 178 M180 278 Q240 228 300 278" stroke="#1b1b1b" stroke-width="3.2" fill="none" opacity=".9"/>'+
+        '<path d="M168 228 Q240 268 312 228" stroke="#1b1b1b" stroke-width="3.2" fill="none" opacity=".9"/>'+
+        '<circle cx="240" cy="156" r="6" fill="#7b241c"/>'+
+        '<ellipse cx="214" cy="204" rx="22" ry="13" fill="#ffd9d4" opacity=".7"/>'+
+        '<circle cx="268" cy="252" r="7" fill="#fff" opacity=".35"/>'+
+        '<g opacity=".85">'+airDots([[228,224,3,2.2],[252,236,2.5,2.6],[240,258,2.5,2.9],[222,254,2,2.4]])+'</g>'+
+        '<text x="240" y="128" text-anchor="middle" font-size="14" font-weight="bold" fill="#a93226">充满空气的皮球</text></g>'+
+      /* 皮球：放出空气（瘪） */
+      '<g class="obj3d" id="m-ball2" opacity="0"><ellipse cx="240" cy="304" rx="60" ry="8" fill="#000" opacity=".15"/>'+
+        '<path d="M182 274 Q240 250 298 274 Q306 296 240 300 Q174 296 182 274 Z" fill="#ef7b6f" stroke="#a93226" stroke-width="2"/>'+
+        '<path d="M196 276 Q240 266 284 276" stroke="#a93226" stroke-width="2" fill="none" opacity=".6"/>'+
+        '<path d="M200 284 Q240 276 280 284" stroke="#a93226" stroke-width="1.5" fill="none" opacity=".5"/>'+
+        '<ellipse cx="222" cy="270" rx="14" ry="6" fill="#ffd9d4" opacity=".7"/>'+
+        '<text x="240" y="128" text-anchor="middle" font-size="14" font-weight="bold" fill="#a93226">放出空气的皮球</text></g>'+
+      /* 打气筒 / 气针 */
+      '<g class="obj3d" id="m-tool" opacity="0">'+
+        '<rect x="338" y="132" width="30" height="96" rx="6" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2"/>'+
+        '<rect x="344" y="60" width="18" height="74" rx="4" fill="url(#metalGrad)" stroke="#56666d" stroke-width="2"/>'+
+        '<rect x="330" y="48" width="46" height="14" rx="4" fill="#455a64"/>'+
+        '<path d="M353 228 Q372 232 372 250 L372 262" fill="none" stroke="#37474f" stroke-width="4"/>'+
+        '<polygon points="372,258 384,270 372,282" fill="#90a4ae" stroke="#56666d" stroke-width="1.5"/>'+
+        '<text x="392" y="112" font-size="12.5" font-weight="bold" fill="#14614a" id="m-toolname">打气筒</text></g>'+
+      /* 放出的空气 */
+      '<g id="m-airout" opacity="0"><circle cx="316" cy="228" r="3" fill="#4aa3d8"><animate attributeName="cx" values="316;400;470" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="316" cy="234" r="2.5" fill="#4aa3d8"><animate attributeName="cx" values="316;400;470" dur="1.5s" begin=".3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" begin=".3s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="316" cy="222" r="2.5" fill="#4aa3d8"><animate attributeName="cx" values="316;400;470" dur="1.5s" begin=".6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" begin=".6s" repeatCount="indefinite"/></circle>'+
+        '<text x="430" y="212" font-size="12.5" font-weight="bold" fill="#4aa3d8">空气跑掉了</text></g>'+
+      '<g id="m-diff" opacity="0"><path d="M600 250 L660 250" stroke="#c0392b" stroke-width="3" marker-end="url(#c4ar)"/><text x="630" y="240" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c0392b">轻了 0.90 g</text></g>'+
+      '<defs><marker id="c4ar" markerWidth="9" markerHeight="9" refX="4" refY="3" orient="auto"><path d="M0 0 L9 3 L0 6 Z" fill="#c0392b"/></marker></defs>'
+    )+
+    '<table class="rec" id="m-rec" style="margin-top:8px"><tr><th>称量对象</th><th>充满空气的皮球</th><th>放出空气的皮球</th></tr>'+
+      '<tr><td>质量 / 克</td><td class="big" id="m-c1">—</td><td class="big" id="m-c2">—</td></tr>'+
+      '<tr><td>空气的质量（差值）</td><td class="big" id="m-cd" colspan="2">—</td></tr></table>';
+  },
+  init(){ this.obj="full"; },
+  setPlan(id, ctx){
+    this.obj = id==="empty" ? "empty" : "full";
+    if(this.obj==="full"){ fade("m-ball",1,300); fade("m-ball2",0,300); this.read(36.24); }
+    else { fade("m-ball",0,300); fade("m-ball2",1,300); this.read(35.34); }
+  },
+  async read(v, dur){
+    const from = parseFloat(($("m-read")||{}).textContent) || 0;
+    await tween(dur||1200, p=>gVal("m-read",(from+(v-from)*p).toFixed(2)));
+  },
+  steps(){
+    return [
+      {t:"【准备】把电子秤放在平稳、无振动的桌面上，按\"归零\"键，确认示数为 0.00。", ms:1900, act:async()=>{ await this.reset(); }},
+      {t:"【步骤1】用打气筒给小皮球充足气，球体饱满、按下去富有弹性。", ms:1900, act:async()=>{ fade("m-tool",1,350); gVal("m-toolname","打气筒"); await wait(600); }},
+      {t:"【步骤2】把充满空气的皮球轻轻放在秤盘中央（不要碰到别的东西）。", ms:1700, act:async()=>{ await fade("m-tool",0,300); await fade("m-ball",1,350); }},
+      {t:"【步骤3】等示数稳定后读数：36.24 克，记录在表格里。", ms:2000, act:async()=>{ await this.read(36.24,1300); gVal("m-c1","36.24"); }},
+      {t:"【步骤4】保持皮球在秤盘上不动，用气针（或徒手按压气嘴）慢慢放出皮球里的空气，直到皮球完全瘪下去、变软。皮球一直放在秤上，你会看到示数跟着变小。", ms:3200, act:async()=>{
+        fade("m-tool",1,300); gVal("m-toolname","气针放气"); await fade("m-airout",1,350);
+        await Promise.all([
+          this.read(35.34,1500),
+          (async()=>{ await wait(500); await fade("m-ball",0,500); await fade("m-ball2",1,500); })()
+        ]);
+        await fade("m-tool",0,300); await fade("m-airout",0,300);
+      }},
+      {t:"【步骤5】瘪皮球仍然稳稳地放在秤盘上（没气的气球也在秤上），等示数稳定后读数：35.34 克，记录在表格里。", ms:2200, act:async()=>{ await this.read(35.34,900); gVal("m-c2","35.34"); }},
+      {t:"【步骤6】比较两次数据：36.24 − 35.34 = 0.90 克。这 0.90 克就是被放掉的那部分空气的质量。", ms:2400, act:async()=>{ gVal("m-cd","36.24 − 35.34 = 0.90 g"); await fade("m-diff",1,400); }},
+      {t:"【结论】空气有质量！平时感觉不到，只是因为同样体积的空气比水、铁轻得多（1 cm³ 空气约 0.00129 g）。", ms:2800, act:async()=>{}}
+    ];
+  },
+  async reset(){
+    ["m-ball2","m-tool","m-airout","m-diff"].forEach(id=>{ const e=$(id); if(e){ e.style.transition="none"; e.style.opacity="0"; e.style.transform=""; }});
+    const b=$("m-ball"); if(b){ b.style.transition="none"; b.style.opacity="1"; b.style.transform=""; }
+    gVal("m-read","0.00"); gVal("m-c1","—"); gVal("m-c2","—"); gVal("m-cd","—");
+  }
+};
+
+/* ---------- 任务五：干海绵 ---------- */
+const spongeMod = {
+  scene(){
+    return scene(
+      TABLE+
+      /* 自封袋：初始鼓起，里面装着海绵 */
+      '<g class="obj3d" id="k-bag"><path id="k-bagpath" d="M170 130 L470 130 Q 492 220 470 310 L170 310 Q 148 220 170 130 Z" fill="url(#bagGrad)" fill-opacity=".65" stroke="#7fb0c4" stroke-width="2.5"/>'+
+        '<path d="M178 144 L192 144 Q 184 230 188 290 L174 290 Q 170 230 178 144 Z" fill="#fff" opacity=".45"/>'+
+        /* 自封袋拉链口 */
+        '<rect x="168" y="120" width="304" height="14" rx="4" fill="#cfe7f0" stroke="#7fb0c4" stroke-width="2"/>'+
+        '<rect x="168" y="124" width="304" height="4" fill="#9fc6d6" opacity=".8"/>'+
+        '<g id="k-bub2" opacity="0">'+airDots([[220,190,4,2.2],[300,168,3.5,2.6],[380,214,4,2.4],[260,250,3.5,2.8],[350,262,3.5,2.3]])+'</g></g>'+
+      /* 海绵：放在袋子里面 */
+      '<g class="obj3d" id="k-sponge"><ellipse id="k-sshadow" cx="320" cy="288" rx="52" ry="5" fill="#000" opacity=".18"/>'+
+        '<rect id="k-sbody" x="270" y="215" width="100" height="68" rx="6" fill="url(#spongeGrad)" stroke="#c99a1e" stroke-width="2"/>'+
+        '<rect x="270" y="215" width="100" height="20" rx="6" fill="#7fb069" opacity=".85"/>'+
+        '<rect x="270" y="230" width="100" height="5" fill="#5e8f54" opacity=".7"/>'+
+        '<g id="k-holes">'+
+          '<ellipse cx="286" cy="252" rx="4" ry="2.5" fill="#c99a1e" opacity=".75"/><ellipse cx="304" cy="260" rx="3.5" ry="2" fill="#c99a1e" opacity=".75"/>'+
+          '<ellipse cx="324" cy="252" rx="4" ry="2.5" fill="#c99a1e" opacity=".75"/><ellipse cx="344" cy="266" rx="3.5" ry="2" fill="#c99a1e" opacity=".75"/>'+
+          '<ellipse cx="290" cy="272" rx="3.5" ry="2" fill="#c99a1e" opacity=".75"/><ellipse cx="318" cy="276" rx="4" ry="2.5" fill="#c99a1e" opacity=".75"/>'+
+          '<ellipse cx="352" cy="272" rx="3.5" ry="2" fill="#c99a1e" opacity=".75"/><ellipse cx="300" cy="244" rx="3" ry="1.8" fill="#c99a1e" opacity=".75"/>'+
+        '</g>'+
+        '<g id="k-wet" opacity="0"><circle cx="290" cy="250" r="3.5" fill="#4aa3d8" opacity=".85"/><circle cx="330" cy="266" r="3.5" fill="#4aa3d8" opacity=".85"/>'+
+        '<circle cx="350" cy="248" r="3" fill="#4aa3d8" opacity=".85"/><circle cx="304" cy="276" r="3" fill="#4aa3d8" opacity=".85"/></g>'+
+        '<rect x="275" y="221" width="18" height="5" rx="2" fill="#fff" opacity=".55"/></g>'+
+      '<g class="obj3d" id="k-tie" opacity="0"><rect x="250" y="116" width="140" height="14" rx="3" fill="#37474f"/>'+
+        '<rect x="250" y="118" width="140" height="3" fill="#607d8b"/>'+
+        '<rect x="244" y="112" width="14" height="22" rx="3" fill="#263238"/>'+
+        '<text x="320" y="152" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#bf360c">扎带（密封）</text></g>'+
+      '<g id="k-hands" opacity="0"><ellipse cx="180" cy="256" rx="34" ry="22" fill="#f7cfb8" stroke="#b4643c" stroke-width="2"/>'+
+        '<ellipse cx="460" cy="256" rx="34" ry="22" fill="#f7cfb8" stroke="#b4643c" stroke-width="2"/></g>'+
+      '<g id="k-airout" opacity="0"><circle cx="470" cy="170" r="3" fill="#4aa3d8"><animate attributeName="cx" values="470;540;610" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="470" cy="180" r="3" fill="#4aa3d8"><animate attributeName="cx" values="470;540;610" dur="1.5s" begin=".3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" begin=".3s" repeatCount="indefinite"/></circle></g>'+
+      '<g id="k-ok" opacity="0"><circle cx="600" cy="150" r="38" fill="#2e9e6b"/>'+
+        '<path d="M582 152 L596 168 L622 136" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'+
+        '<text x="600" y="212" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e7a52">藏有空气！</text></g>'+
+      '<text id="k-label" x="320" y="330" text-anchor="middle" font-size="13.5" font-weight="600" fill="#14614a">干海绵 + 透明保鲜袋</text>'+
+      '<text x="320" y="404" text-anchor="middle" font-size="13" font-weight="600" fill="#14614a">挤压密封袋里的海绵</text>'
+    );
+  },
+  init(){ this.wet=false; },
+  setPlan(id, ctx){ this.wet = (id==="wet"); ctx.rebuild(); },
+  steps(){
+    const w = this.wet;
+    const arr = [
+      {t:"【准备】"+(w?"干海绵、湿海绵、":"干海绵、")+"透明保鲜袋、扎带（或橡皮筋），把手洗干净擦干。", ms:1800, act:()=>this.reset()},
+      {t:"【步骤1】把"+(w?"湿海绵（吸饱水的海绵）":"干海绵")+"装入透明保鲜袋，让它自然平放在袋底。", ms:1900, act:async()=>{ if(w){ fade("k-wet",1,300); setA("k-sbody","fill","#e3c86a"); } else { fade("k-wet",0,200); setA("k-sbody","fill","#f5d44a"); } gVal("k-label",(w?"湿海绵":"干海绵")+" + 透明保鲜袋"); }},
+      {t:"【步骤2】用双手由袋底向袋口方向挤压保鲜袋，把袋中原有的空气尽量排出去。", ms:2200, act:async()=>{ 
+        await fade("k-airout",1,350); 
+        const sp=$("k-sponge");
+        await tween(700,p=>{ 
+          setA("k-bagpath","d", p<.5 ? "M170 130 L470 130 Q 492 220 470 310 L170 310 Q 148 220 170 130 Z" : "M170 130 L470 130 L464 236 L176 236 Z"); 
+          if(sp){ sp.style.transition="none"; sp.style.transform="translateY("+(-55*p)+"px)"; }
+        }); 
+      }},
+      {t:"【步骤3·关键】保持挤压状态，用扎带把袋口绑紧，确保密封——外面的空气再也进不来。", ms:2000, act:async()=>{ 
+        const sp=$("k-sponge"); if(sp){ sp.style.transition="transform .35s ease"; sp.style.transform="translateY(-55px)"; }
+        await fade("k-airout",0,300); await fade("k-tie",1,350); 
+      }},
+      {t:"【步骤4】松开手，保鲜袋自然回缩。此刻袋里只剩海绵，以及藏在海绵小孔里的空气。", ms:2000, act:async()=>{ 
+        setA("k-bagpath","d","M170 130 L470 130 Q 492 220 470 310 L170 310 Q 148 220 170 130 Z"); 
+        const sp=$("k-sponge"); if(sp){ sp.style.transition="transform .5s ease"; sp.style.transform=""; }
+        setA("k-sbody","y",215); setA("k-sbody","height",68);
+      }},
+      {t:"【步骤5】双手隔着袋子，用力挤压里面的"+(w?"湿海绵":"干海绵")+"。", ms:1800, act:async()=>{ 
+        const sp=$("k-sponge"); if(sp){ sp.style.transition="transform .35s ease"; sp.style.transform="translateY(-55px)"; }
+        await fade("k-hands",1,350); 
+        await tween(600,p=>{ 
+          setA("k-sbody","y",215+18*p); 
+          setA("k-sbody","height",68-26*p); 
+          setA("k-bagpath","d","M170 130 L470 130 L"+(464-4*p)+" "+(236-10*p)+" L"+(176+4*p)+" "+(236-10*p)+" Z"); 
+        }); 
+      }}
+    ];
+    if(w){
+      arr.push(
+        {t:"【现象·对比】袋子只是微微鼓起：湿海绵的小孔被水占满了，能挤出来的空气很少。", ms:2500, act:async()=>{ await tween(900,p=>{ setA("k-bagpath","d","M158 136 L482 136 Q 500 220 482 314 L158 314 Q 140 220 158 136 Z"); }); await fade("k-bub2",1,400); }},
+        {t:"【结论·对比】同样的海绵，湿的比干的挤出的空气少 → 说明被水占住的小孔里原来装的是空气。切回「干海绵」再看一次，对比更明显。", ms:2800, act:async()=>{ const sp=$("k-sponge"); if(sp){ sp.style.transition="transform .5s ease"; sp.style.transform=""; } }}
+      );
+    }else{
+      arr.push(
+        {t:"【现象1】保鲜袋明显鼓了起来！袋身饱满、有弹性，透过袋壁还能看到袋内飘着小气泡。", ms:2600, act:async()=>{ await tween(1000,p=>{ setA("k-bagpath","d","M148 112 L492 112 Q 512 220 492 318 L148 318 Q 128 220 148 112 Z"); }); await fade("k-bub2",1,400); await fade("k-ok",1,400); }},
+        {t:"【现象2·关键推理】袋子是密封的，外面的空气进不来——多出来的空气只能来自海绵内部的小孔！", ms:2400, act:async()=>{ gVal("k-label","多出来的空气只能来自海绵内部"); }},
+        {t:"【现象3】松开手，袋身慢慢回缩，海绵也恢复原状；再挤一次，袋子又鼓起来，现象稳定出现。", ms:2300, act:async()=>{ 
+          await tween(900,p=>{ setA("k-bagpath","d", p<.5 ? "M148 112 L492 112 Q 512 220 492 318 L148 318 Q 128 220 148 112 Z" : "M170 130 L470 130 Q 492 220 470 310 L170 310 Q 148 220 170 130 Z"); }); 
+          setA("k-sbody","y",215); setA("k-sbody","height",68); 
+          const sp=$("k-sponge"); if(sp){ sp.style.transition="transform .5s ease"; sp.style.transform=""; }
+          await fade("k-hands",0,300); 
+        }},
+        {t:"【结论】干海绵里藏有大量空气。拓展：把土块放进水里会冒气泡，说明土壤、水等许多物体的空隙里也藏着空气——空气会充满各处。", ms:2800, act:async()=>{ gVal("k-label","结论：空气藏在物体空隙里，会充满各处"); }}
+      );
+    }
+    return arr;
+  },
+  async reset(){
+    ["k-tie","k-hands","k-airout","k-ok","k-bub2","k-wet"].forEach(id=>{ const e=$(id); if(e){ e.style.transition="none"; e.style.opacity="0"; }});
+    setA("k-bagpath","d","M170 130 L470 130 Q 492 220 470 310 L170 310 Q 148 220 170 130 Z");
+    setA("k-sbody","y",215); setA("k-sbody","height",68); setA("k-sbody","fill","#f5d44a");
+    const s=$("k-sponge"); if(s){ s.style.transition="none"; s.style.opacity="1"; s.style.transform=""; }
+    gVal("k-label","干海绵 + 透明保鲜袋");
+  }
+};
+
+/* ---------- 课后任务：瓶子里的气球 ---------- */
+const balloonMod = {
+  scene(){
+    return scene(
+      '<defs>'+
+        '<radialGradient id="c6-bal" cx="35%" cy="30%"><stop offset="0%" stop-color="#fadbd8"/><stop offset="60%" stop-color="#ec7063"/><stop offset="100%" stop-color="#a93226"/></radialGradient>'+
+        '<linearGradient id="c6-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#bfe6d5" stop-opacity=".45"/><stop offset="20%" stop-color="#f2fbf7" stop-opacity=".3"/><stop offset="50%" stop-color="#cdeede" stop-opacity=".18"/><stop offset="100%" stop-color="#a9d8c6" stop-opacity=".45"/></linearGradient>'+
+        '<marker id="c6ab" markerWidth="9" markerHeight="9" refX="4" refY="3" orient="auto"><path d="M0 0 L9 3 L0 6 Z" fill="#2f87b6"/></marker>'+
+      '</defs>'+
+      TABLE+
+      /* 瓶子（真实 PET 瓶） */
+      '<g class="obj3d" id="o-nbottle">'+
+        '<g id="n-bair">'+airDots([[278,210,3,2.5],[322,252,2.5,2.9],[300,310,3,2.4],[332,340,2.5,3.1],[272,350,2.5,2.7]])+'</g>'+
+        '<path d="M266 118 L266 96 Q266 82 296 82 L304 82 Q334 82 334 96 L334 118 L358 142 L358 372 L242 372 L242 142 Z" fill="url(#c6-g)" stroke="#2c6f53" stroke-width="2.5"/>'+
+        '<path d="M256 150 L256 366" stroke="#ffffff" stroke-width="6" opacity=".5" stroke-linecap="round"/>'+
+        '<g stroke="#7fae99" stroke-width="1.4" opacity=".85"><line x1="276" y1="100" x2="324" y2="100"/><line x1="274" y1="104" x2="326" y2="104"/><line x1="272" y1="108" x2="328" y2="108"/></g>'+
+        '<ellipse cx="300" cy="374" rx="60" ry="5" fill="#000" opacity=".15"/>'+
+        '<text x="300" y="412" text-anchor="middle" font-size="13" font-weight="600" fill="#14614a">瓶子里的气球能吹大吗？</text>'+
+      '</g>'+
+      /* 气球：口部翻套在瓶口外 → 颈部 → 球体（连成一体） */
+      '<g class="obj3d" id="n-bal" opacity="0">'+
+        '<path id="n-neck" d="M288 92 L288 158 L312 158 L312 92 Z" fill="url(#c6-bal)" stroke="#8e2b20" stroke-width="1.5"/>'+
+        '<ellipse id="n-balS" cx="300" cy="180" rx="20" ry="28" fill="url(#c6-bal)" stroke="#8e2b20" stroke-width="1.5"/>'+
+        '<ellipse id="n-balH" cx="292" cy="170" rx="6" ry="10" fill="#fff" opacity=".5"/>'+
+        /* 气球嘴翻套瓶口 */
+        '<path id="n-cuff" d="M274 98 Q274 74 300 74 Q326 74 326 98 L326 108 Q326 116 300 116 Q274 116 274 108 Z" fill="#c0392b" stroke="#7b241c" stroke-width="1.6"/>'+
+        '<ellipse cx="300" cy="98" rx="26" ry="6.5" fill="#e05c50" stroke="#7b241c" stroke-width="1.4"/>'+
+        '<ellipse cx="300" cy="98" rx="15" ry="3.4" fill="#7b241c"/>'+
+        /* 气球打结 */
+        '<path d="M294 206 L300 214 L306 206 Z" fill="#a93226"/>'+
+        '<text x="352" y="78" font-size="12.5" font-weight="bold" fill="#a93226">气球口翻套在瓶口外</text>'+
+        '<text x="352" y="96" font-size="11.5" fill="#14614a">气只能吹进这个气球里</text>'+
+      '</g>'+
+      /* 吹进去的气：从气球口 → 沿颈部 → 进入球体 */
+      '<g id="n-airin" opacity="0">'+
+        '<circle cx="300" cy="106" r="3.2" fill="#2f87b6"><animate attributeName="cy" values="106;152" dur="1.1s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="294" cy="106" r="2.6" fill="#2f87b6"><animate attributeName="cy" values="106;152" dur="1.1s" begin=".35s" repeatCount="indefinite"/></circle>'+
+        '<circle cx="306" cy="106" r="2.6" fill="#2f87b6"><animate attributeName="cy" values="106;152" dur="1.1s" begin=".7s" repeatCount="indefinite"/></circle>'+
+        '<path d="M424 130 L374 142" stroke="#2f87b6" stroke-width="2" fill="none" marker-end="url(#c6ab)"/>'+
+        '<text x="428" y="134" font-size="12.5" font-weight="bold" fill="#2f87b6">吹进去的气只进气球</text>'+
+      '</g>'+
+      /* 瓶底小孔 */
+      '<g id="n-hole" opacity="0"><circle cx="300" cy="370" r="4.5" fill="#37474f"><animate attributeName="r" values="3.5;5.5;3.5" dur="2s" repeatCount="indefinite"/></circle>'+
+        '<path d="M306 376 Q320 388 332 398" stroke="#4aa3d8" stroke-width="2.5" fill="none" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" from="0" to="-18" dur=".8s" repeatCount="indefinite"/></path>'+
+        '<path d="M294 376 Q286 388 278 398" stroke="#4aa3d8" stroke-width="2.5" fill="none" stroke-dasharray="5 4"><animate attributeName="stroke-dashoffset" from="0" to="-18" dur=".8s" repeatCount="indefinite"/></path>'+
+        '<text x="366" y="398" font-size="12.5" font-weight="bold" fill="#14614a">空气跑出</text></g>'+
+      /* 吹气（嘴对着气球口） */
+      '<g id="n-blow" opacity="0"><ellipse cx="300" cy="32" rx="26" ry="14" fill="#f7cfb8" stroke="#b4643c" stroke-width="1.5"/>'+
+        '<ellipse cx="300" cy="36" rx="16" ry="6" fill="#7b241c"/>'+
+        '<path d="M288 48 Q286 60 291 70" stroke="#4aa3d8" stroke-width="2" fill="none" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="0" to="-14" dur=".8s" repeatCount="indefinite"/></path>'+
+        '<path d="M300 50 L300 72" stroke="#4aa3d8" stroke-width="2" fill="none" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="0" to="-14" dur=".8s" repeatCount="indefinite"/></path>'+
+        '<path d="M312 48 Q314 60 309 70" stroke="#4aa3d8" stroke-width="2" fill="none" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="0" to="-14" dur=".8s" repeatCount="indefinite"/></path>'+
+        '<text x="352" y="34" font-size="12.5" font-weight="bold" fill="#b4643c">对着气球口吹气</text></g>'+
+      /* 钉子（真实铁钉） */
+      '<g class="obj3d" id="n-nail" opacity="0"><rect x="392" y="330" width="40" height="14" rx="4" fill="url(#metalGrad)" stroke="#56666d" stroke-width="1.5"/>'+
+        '<polygon points="432,330 470,337 432,344" fill="url(#metalGrad)" stroke="#56666d" stroke-width="1.5"/>'+
+        '<circle cx="402" cy="337" r="4" fill="#cfd8dc"/>'+
+        '<text x="413" y="318" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#14614a">钉子（注意安全）</text></g>'+
+      '<g id="n-why" opacity="0"><text x="470" y="200" font-size="15" font-weight="bold" fill="#c0392b">❓ 吹不大？</text>'+
+        '<text x="470" y="226" font-size="12.5" fill="#14614a">瓶内空气被封住，</text><text x="470" y="246" font-size="12.5" fill="#14614a">没有出口！</text></g>'+
+      '<g id="n-ok" opacity="0"><text x="470" y="200" font-size="16" font-weight="bold" fill="#1e7a52">🎉 吹大啦！</text>'+
+        '<text x="470" y="226" font-size="12.5" fill="#14614a">小孔给了空气出口，</text><text x="470" y="246" font-size="12.5" fill="#14614a">气球顺利变大。</text></g>'
+    );
+  },
+  init(){ this.hole=false; },
+  setPlan(id, ctx){ this.hole = (id==="hole"); ctx.rebuild(); },
+  setBalloon(cy, rx, ry){
+    setA("n-balS","cy",cy.toFixed(1)); setA("n-balS","rx",rx.toFixed(1)); setA("n-balS","ry",ry.toFixed(1));
+    const top = (cy - ry + 6).toFixed(1);
+    setA("n-neck","d","M288 92 L288 "+top+" L312 "+top+" L312 92 Z");
+    setA("n-balH","cy",(cy-ry*0.35).toFixed(1));
+    setA("n-balH","rx",Math.max(3,rx*0.3).toFixed(1));
+    setA("n-balH","ry",Math.max(5,ry*0.35).toFixed(1));
+  },
+  steps(){
+    const h = this.hole;
+    const arr = [
+      {t:"【准备】透明空塑料瓶 1 个、小气球 1 个、钉子 1 根、垫布 1 块。", ms:1800, act:()=>this.reset()},
+      {t:"【步骤1·关键】把小气球塞进瓶子里，再把气球口翻过来、紧紧套在瓶口外面——这样气球口就和瓶口连在一起了，从瓶口吹进去的气只能进到这只气球里。", ms:2600, act:async()=>{ await fade("n-bal",1,450); }}
+    ];
+    if(h){
+      arr.push(
+        {t:"【步骤2·办法】在瓶底用钉子小心地戳一个小孔（垫上垫布，注意安全），给瓶内空气留一条出路。", ms:2300, act:async()=>{ await fade("n-nail",1,350); await wait(900); await fade("n-nail",0,300); await fade("n-hole",1,350); }},
+        {t:"【步骤3】确认气球口仍然牢牢套在瓶口上，没有漏气。", ms:1800, act:async()=>{ await fade("n-bal",1,300); }},
+        {t:"【步骤4】用力吹气！气从瓶口沿着气球颈部进到气球里，气球在瓶中一点点鼓大，同时瓶底小孔里有空气\"嘶嘶\"地跑出来。", ms:3000, act:async()=>{ await fade("n-blow",1,300); await fade("n-airin",1,350); await tween(1900,p=>{ this.setBalloon(180+102*p, 20+36*p, 28+58*p); }); await fade("n-bair",0.12,900); }},
+        {t:"【想一想】为什么这次能吹大？因为瓶底的小孔给瓶内空气提供了出口，气球鼓起来时把空气从孔里挤了出去。", ms:2600, act:async()=>{ await fade("n-blow",0,300); await fade("n-ok",1,400); }},
+        {t:"【结论】空气占有空间，并且可以流动。只要给空气留一条出路，被它占着的空间就能让出来。", ms:2600, act:async()=>{}}
+      );
+    }else{
+      arr.push(
+        {t:"【步骤2】嘴对着套在瓶口上的气球口，用力往里吹气，看气球能不能变大。", ms:2200, act:async()=>{ await fade("n-blow",1,300); await fade("n-airin",1,350); await tween(1100,p=>{ this.setBalloon(180+16*p, 20+7*p, 28+7*p); }); }},
+        {t:"【现象】不管多用力，气球只是稍稍鼓起一点点就再也吹不动了！瓶里那部分空气被气球和瓶口一起封住，出不去。", ms:2400, act:async()=>{ await fade("n-blow",0,300); await fade("n-airin",0,300); }},
+        {t:"【想一想】为什么吹不大？瓶子里原本装满了空气，气球要鼓大必须把空气挤出去，可瓶口被气球封住，空气没有出口，于是被\"顶\"住。", ms:2800, act:async()=>{ await fade("n-why",1,400); }},
+        {t:"【试一试】在右侧切换到「瓶底开孔」，看看气球能不能被吹大；还可以想一想别的办法（如插一根吸管进气）。", ms:2600, act:async()=>{}}
+      );
+    }
+    return arr;
+  },
+  async reset(){
+    ["n-blow","n-nail","n-hole","n-why","n-ok","n-airin"].forEach(id=>{ const e=$(id); if(e){ e.style.transition="none"; e.style.opacity="0"; }});
+    const b=$("n-bal"); if(b){ b.style.transition="none"; b.style.opacity="0"; }
+    const a=$("n-bair"); if(a){ a.style.transition="none"; a.style.opacity="1"; }
+    this.setBalloon(180,20,28);
+  }
+};
+
+/* ---------- 看板模块（导入 / 结论） ---------- */
+const boardMod = {
+  scene(secObj){ return '<div class="board">'+secObj.board+'</div>'; },
+  init(){}, setPlan(){}, 
+  steps(secObj){
+    const m = secObj.id;
+    if(m==="intro") return [
+      {t:"【情境】出示气球、风车、水杯里的气泡、海绵——请学生说一说：空气在哪里？", ms:2400},
+      {t:"【提问】空气看不见、摸不着，它到底有没有质量？会不会占地方？", ms:2400},
+      {t:"【猜想】把自己的猜想和理由写在记录单上，和同桌交流。", ms:2200},
+      {t:"【计划】今天用 5 个实验来搜集证据：倒水、弹性塑料瓶、软塑料包、称量皮球、挤干海绵。", ms:2400},
+      {t:"【方法】提出问题 → 制订计划 → 搜集证据 → 得出结论，每一步都如实记录。", ms:2200}
+    ];
+    return [
+      {t:"【研讨】各组汇报：倒水实验看到了什么？说明什么？", ms:2400},
+      {t:"【研讨】称量实验的数据是多少？减少的 0.90 g 是什么？", ms:2400},
+      {t:"【研讨】海绵、土壤、水里都找到了空气吗？证据是什么？", ms:2400},
+      {t:"【总结】空气占有一定的空间、有质量、会充满各处——空气是一种真实存在的物质。", ms:2600},
+      {t:"【应用】用今天学到的知识解释生活中的现象，并完成课后任务：吹大瓶子里的气球。", ms:2400}
+    ];
+  }
+};
+
+const MODULES = {bottle:bottleMod, plastic:plasticMod, softbag:softbagMod, mass:massMod, sponge:spongeMod, balloon:balloonMod, board:boardMod};
+
+/* ===== 器材名称 → 演示区中对应的元件（点击器材时高亮） ===== */
+const EQUIP_TARGETS = {
+  t1:{"透明塑料瓶":["o-bottle"],"玻璃瓶":["o-bottle"],"漏斗":["b-funnel"],"橡皮泥":["b-clay"],"水杯":["o-cup"],"清水":["o-cup"]},
+  t2:{"空塑料瓶（软）":["o-pbottle"],"矿泉水瓶":["o-pbottle"],"漏斗":["p-funnel"],"橡皮泥":["p-clay"],"水壶":["p-kettle"]},
+  t3:{"软塑料包":["o-sbag"],"自封袋":["o-sbag"],"漏斗":["s-funnel"],"橡皮筋":["s-band"]},
+  t4:{"小皮球":["m-ball","m-ball2"],"打气筒":["m-tool"],"电子秤":["o-scale"],"记录单":["m-rec"]},
+  t5:{"干海绵":["k-sponge"],"湿海绵":["k-sponge"],"透明保鲜袋":["k-bag"],"扎带":["k-tie"]},
+  home:{"透明空塑料瓶":["o-nbottle"],"空塑料瓶":["o-nbottle"],"小气球":["n-bal"],"气球":["n-bal"],"钉子":["n-nail"]}
+};
+
+/* ===== 器材高亮（聚光灯） ===== */
+let curSpot = null;
+function clearSpot(){
+  const svg=document.querySelector("#stageCard svg");
+  if(svg){
+    svg.classList.remove("spotlight");
+    svg.querySelectorAll(".spot-on").forEach(e=>e.classList.remove("spot-on"));
+    svg.querySelectorAll(".spot-ring,.spot-ring2,.spot-tag").forEach(e=>e.remove());
+  }
+  document.querySelectorAll("#stageCard .hl-html").forEach(e=>e.classList.remove("hl-html"));
+  curSpot=null;
+}
+function drawRing(svg, ids, label){
+  const vb = svg.viewBox && svg.viewBox.baseVal;
+  if(!vb || !vb.width) return;
+  const sr = svg.getBoundingClientRect();
+  if(!sr.width || !sr.height) return;
+  const sc = Math.min(sr.width/vb.width, sr.height/vb.height);
+  const ox = (sr.width - vb.width*sc)/2, oy = (sr.height - vb.height*sc)/2;
+  let x1=1e9,y1=1e9,x2=-1e9,y2=-1e9, hit=false;
+  ids.forEach(id=>{
+    const el=$(id); if(!el || !el.getBoundingClientRect) return;
+    const r=el.getBoundingClientRect();
+    if(!r.width && !r.height) return;
+    hit=true;
+    const ax=(r.left-sr.left-ox)/sc, ay=(r.top-sr.top-oy)/sc;
+    const bx=(r.right-sr.left-ox)/sc, by=(r.bottom-sr.top-oy)/sc;
+    x1=Math.min(x1,ax); y1=Math.min(y1,ay); x2=Math.max(x2,bx); y2=Math.max(y2,by);
+  });
+  if(!hit) return;
+  const pad=12, NS="http://www.w3.org/2000/svg";
+  const r1=document.createElementNS(NS,"rect");
+  r1.setAttribute("x",x1-pad); r1.setAttribute("y",y1-pad);
+  r1.setAttribute("width",(x2-x1)+pad*2); r1.setAttribute("height",(y2-y1)+pad*2);
+  r1.setAttribute("rx",10); r1.setAttribute("class","spot-ring spot-on");
+  svg.appendChild(r1);
+  const r2=r1.cloneNode(false);
+  r2.setAttribute("class","spot-ring2 spot-on");
+  svg.appendChild(r2);
+  if(label){
+    const t=document.createElementNS(NS,"text");
+    t.setAttribute("x",x1-pad); t.setAttribute("y",Math.max(16,y1-pad-9));
+    t.setAttribute("class","spot-tag spot-on");
+    t.textContent="★ "+label;
+    svg.appendChild(t);
+  }
+}
+function spotlight(label, ids){
+  clearSpot();
+  if(!ids || !ids.length) return false;
+  const svg=document.querySelector("#stageCard svg");
+  let ok=false;
+  if(svg){
+    ids.forEach(id=>{
+      const el=$(id); if(!el) return;
+      ok=true;
+      if(el.namespaceURI==="http://www.w3.org/2000/svg"){
+        let n=el;
+        while(n){ n.classList.add("spot-on"); if(n===svg) break; n=n.parentNode; }
+      }else{
+        el.classList.add("hl-html");
+      }
+    });
+    if(ok){ svg.classList.add("spotlight"); drawRing(svg, ids, label); }
+  }else{
+    ids.forEach(id=>{ const el=$(id); if(el){ ok=true; el.classList.add("hl-html"); } });
+  }
+  if(!ok) return false;
+  curSpot={label:label, ids:ids};
+  return true;
+}
+function refreshSpot(){ if(curSpot) { const c=curSpot; curSpot=null; spotlight(c.label, c.ids); } }
+
+/* ==================== 渲染 ==================== */
+let editMode=false, rotX=0, rotY=0, zoom=1;
+let curStep = 0, playing = false, stepList = [], moduleState = null, curPlan = null;
+
+function renderAll(){ renderHeader(); renderList(); renderCenter(); renderRight(); }
+function renderHeader(){
+  $("metaUnit").textContent = LESSON.meta.unit;
+  $("metaLesson").textContent = LESSON.meta.lesson;
+  $("metaTitle").textContent = LESSON.meta.title;
+}
+function renderList(){
+  const box=$("sectionList"); box.innerHTML="";
+  LESSON.sections.forEach((s,i)=>{
+    const d=document.createElement("div");
+    d.className="sec-item"+(s.id===LESSON.activeId?" active":"");
+    d.innerHTML='<span class="idx">'+(i+1)+'</span><span class="nm">'+esc(s.title)+'</span><button class="del-btn" title="删除">✕</button>';
+    d.querySelector(".nm").addEventListener("click",()=>{ LESSON.activeId=s.id; saveLesson(true); renderAll(); });
+    d.querySelector(".del-btn").addEventListener("click",e=>{
+      e.stopPropagation();
+      if(LESSON.sections.length<=1){ tip("⚠️ 至少保留一个环节"); return; }
+      if(!confirm("确定删除环节「"+s.title+"」？")) return;
+      LESSON.sections = LESSON.sections.filter(x=>x.id!==s.id);
+      if(LESSON.activeId===s.id) LESSON.activeId = LESSON.sections[0].id;
+      saveLesson(true); renderAll();
+    });
+    box.appendChild(d);
+  });
+}
+function renderCenter(){
+  const s = sec();
+  const M = MODULES[s.module] || boardMod;
+  $("demoTitle").textContent = s.title + " · 演示";
+  $("equipText").textContent = s.equip || "";
+  const card = $("stageCard");
+  clearSpot();
+  card.innerHTML = M.scene(s);
+  resetView(false);
+  if(M.init) M.init();
+  curPlan = (s.plans && s.plans[0]) ? s.plans[0].id : null;
+  if(M.setPlan && curPlan) M.setPlan(curPlan, ctxApi());
+  stepList = (typeof M.steps==="function" ? M.steps(s) : M.steps) || [];
+  renderModBtns(M);
+  curStep = 0;
+  playing = false;
+  $("btnAuto").textContent = "▶ 自动演示";
+  $("btnAuto").classList.remove("act");
+  paintStep();
+}
+function ctxApi(){ return { rebuild: rebuildSteps }; }
+function rebuildSteps(){
+  const s=sec(); const M=MODULES[s.module]||boardMod;
+  stepList = (typeof M.steps==="function" ? M.steps(s) : M.steps) || [];
+  curStep = 0; playing = false;
+  $("btnAuto").textContent="▶ 自动演示"; $("btnAuto").classList.remove("act");
+  paintStep();
+}
+function renderModBtns(M){
+  const box=$("modBtns"); box.innerHTML="";
+  if(!M.controls) return;
+  (M.controls()||[]).forEach(c=>{
+    const b=document.createElement("button");
+    b.className="cbtn"; b.style.fontSize="12.5px"; b.style.padding="5px 10px"; b.textContent=c.label;
+    if(c.click) b.addEventListener("click",c.click);
+    if(c.hold){
+      b.addEventListener("pointerdown",e=>{ e.preventDefault(); c.hold.down(); });
+      b.addEventListener("pointerup",()=>c.hold.up());
+      b.addEventListener("pointerleave",()=>c.hold.up());
+    }
+    box.appendChild(b);
+  });
+}
+async function paintStep(){
+  const s=sec(); const M=MODULES[s.module]||boardMod;
+  const total=stepList.length;
+  const st=stepList[curStep];
+  $("stepsText").textContent = st ? st.t : "（本环节暂无步骤）";
+  $("stepCount").textContent = (total?curStep+1:0)+" / "+total;
+  if($("stepProgress")) $("stepProgress").style.width = total ? ((curStep+1)/total*100)+"%" : "0";
+  $("stageTip").textContent = st ? ("步骤 "+(curStep+1)+" / "+total) : "准备就绪";
+  if(st && typeof st.act==="function"){ try{ await st.act(); }catch(e){} }
+  if(curSpot) refreshSpot();
+}
+async function runFrom(i){
+  const s=sec(); const M=MODULES[s.module]||boardMod;
+  M.reset && M.reset();
+  await wait(120);
+  curStep=0; await paintStep();
+  while(curStep<i){ curStep++; await paintStep(); }
+}
+async function autoPlay(){
+  if(playing){ playing=false; $("btnAuto").textContent="▶ 继续演示"; $("btnAuto").classList.remove("act"); return; }
+  playing=true; $("btnAuto").textContent="⏸ 暂停"; $("btnAuto").classList.add("act");
+  while(playing && curStep < stepList.length){
+    await paintStep();
+    const st=stepList[curStep];
+    const t0=Date.now();
+    while(playing && Date.now()-t0 < (st.ms||2000)) await wait(60);
+    if(!playing) break;
+    if(curStep>=stepList.length-1){ playing=false; $("btnAuto").textContent="▶ 重新演示"; $("btnAuto").classList.remove("act"); break; }
+    curStep++;
+  }
+}
+$("btnPrev").addEventListener("click",()=>{ playing=false; $("btnAuto").textContent="▶ 自动演示"; $("btnAuto").classList.remove("act"); if(curStep>0){ curStep--; paintStep(); } });
+$("btnNext").addEventListener("click",()=>{ playing=false; $("btnAuto").textContent="▶ 自动演示"; $("btnAuto").classList.remove("act"); if(curStep<stepList.length-1){ curStep++; paintStep(); } });
+$("btnAuto").addEventListener("click",()=>{ if(curStep>=stepList.length-1){ curStep=0; } autoPlay(); });
+$("btnResetExp").addEventListener("click",async()=>{
+  playing=false; $("btnAuto").textContent="▶ 自动演示"; $("btnAuto").classList.remove("act");
+  const s=sec(); const M=MODULES[s.module]||boardMod;
+  if(M.reset) await M.reset();
+  curStep=0; await paintStep(); if(curSpot) refreshSpot(); tip("↻ 已重置到初始状态");
+});
+$("stepsText").addEventListener("dblclick",()=>{ if(!editMode) { autoPlay(); } });
+
+function renderRight(){
+  const s=sec();
+  s.equipOpts=s.equipOpts||[]; s.plans=s.plans||[];
+  renderChips($("equipChips"), s.equipOpts, i=>{ s.equipOpts.splice(i,1); saveLesson(true); renderRight(); }, true, (label,i,on)=>{
+    if(curSpot && curSpot.label===label){
+      clearSpot();
+      [...$("equipChips").querySelectorAll(".chip")].forEach(x=>x.classList.remove("on"));
+      tip("已取消高亮"); return;
+    }
+    const ids = (EQUIP_TARGETS[s.id]||{})[label];
+    if(!ids){ clearSpot(); tip("「"+label+"」在演示图中没有对应位置（可在编辑模式下改名/添加）"); return; }
+    if(spotlight(label, ids)) tip("🖼 已高亮「"+label+"」· 可用 3D 视角全方位观察它");
+  }, -1);
+  renderChips($("planChips"), s.plans.map(p=>p.label), i=>{ s.plans.splice(i,1); saveLesson(true); renderRight(); }, true, (label,i)=>{
+    curPlan = (s.plans[i] && s.plans[i].id) || null;
+    const M = MODULES[s.module]||boardMod;
+    if(M.setPlan) M.setPlan(curPlan, ctxApi());
+    stepList = (typeof M.steps==="function" ? M.steps(s) : M.steps) || [];
+    curStep = 0; playing = false; $("btnAuto").textContent="▶ 自动演示"; $("btnAuto").classList.remove("act");
+    paintStep();
+  });
+  $("anaAnalysis").textContent = s.analysis||"";
+  $("anaPrinciple").textContent = s.principle||"";
+  $("anaExamples").textContent = s.examples||"";
+}
+function renderChips(box, arr, onDel, single, onUse, defOn){
+  box.innerHTML="";
+  const di = (typeof defOn==="number") ? defOn : (single ? 0 : -1);
+  if(!arr.length){ box.innerHTML='<span style="font-size:12.5px;color:var(--text-dim)">（暂无，编辑模式下点 ＋ 添加）</span>'; return; }
+  arr.forEach((t,i)=>{
+    const c=document.createElement("span");
+    c.className="chip"+(i===di ? " on":"");
+    c.innerHTML=esc(t)+'<button class="chip-del" title="删除">✕</button>';
+    c.addEventListener("click",e=>{
+      if(e.target.classList.contains("chip-del")) return;
+      let on;
+      if(single){
+        [...box.querySelectorAll(".chip")].forEach(x=>x.classList.remove("on"));
+        c.classList.add("on"); on=true;
+      }else{
+        on=c.classList.toggle("on");
+      }
+      if(onUse) onUse(t, i, on);
+    });
+    c.querySelector(".chip-del").addEventListener("click",e=>{ e.stopPropagation(); onDel(i); });
+    box.appendChild(c);
+  });
+}
+
+/* ==================== 3D 视角 ==================== */
+/* 视角只作用于「每件器材」本身，实验台（桌面）保持不动 */
+function applyView(anim){
+  const objs=document.querySelectorAll("#stageCard .obj3d");
+  const t="perspective(950px) rotateX("+rotX+"deg) rotateY("+rotY+"deg) scale("+zoom+")";
+  const card=$("stageCard");
+  if(objs.length){
+    objs.forEach(el=>{ el.style.transition = anim===false ? "none" : "transform .25s ease-out"; el.style.transform=t; });
+    card.style.transition="none"; card.style.transform="none";
+  }else{
+    card.style.transition = anim===false ? "none" : "transform .18s ease-out";
+    card.style.transform = "scale("+zoom+") rotateX("+rotX+"deg) rotateY("+rotY+"deg)";
+  }
+  if(curSpot) refreshSpot();
+}
+function resetView(anim){ rotX=0; rotY=0; zoom=1; applyView(anim); }
+function clampView(){ rotX=Math.max(-60,Math.min(60,rotX)); rotY=Math.max(-70,Math.min(70,rotY)); }
+function enableDragRotate(){
+  const stage=$("stage3d");
+  if(stage._drag) return; stage._drag=true;
+  let down=false, lx=0, ly=0;
+  stage.addEventListener("pointerdown",e=>{ if(e.target.closest("a,button")) return; down=true; lx=e.clientX; ly=e.clientY; try{stage.setPointerCapture(e.pointerId);}catch(err){} });
+  stage.addEventListener("pointermove",e=>{
+    if(!down) return;
+    rotY += (e.clientX-lx)*0.4; rotX -= (e.clientY-ly)*0.4;
+    clampView(); lx=e.clientX; ly=e.clientY; applyView(false);
+  });
+  stage.addEventListener("pointerup",()=>{ down=false; });
+}
+/* 3D 视角控制面板已移除，保留变量占位避免旧数据报错 */
+if(false){ applyView(); resetView(); clampView(); }
+
+/* ==================== 编辑 / 保存 / 导入导出 ==================== */
+function bindEditable(el, setter){
+  if(!el) return;
+  el.addEventListener("blur",()=>setter(el.innerText.trim()));
+}
+bindEditable($("metaUnit"), v=>{ LESSON.meta.unit=v; saveLesson(true); });
+bindEditable($("metaLesson"), v=>{ LESSON.meta.lesson=v; saveLesson(true); });
+bindEditable($("metaTitle"), v=>{ LESSON.meta.title=v; saveLesson(true); });
+bindEditable($("equipText"), v=>{ sec().equip=v; saveLesson(true); });
+bindEditable($("anaAnalysis"), v=>{ sec().analysis=v; saveLesson(true); });
+bindEditable($("anaPrinciple"), v=>{ sec().principle=v; saveLesson(true); });
+bindEditable($("anaExamples"), v=>{ sec().examples=v; saveLesson(true); });
+
+function setEditMode(on){
+  editMode=on; document.body.classList.toggle("edit-mode", on);
+  const b=$("editToggle");
+  b.textContent = on ? "🔒 编辑模式：开" : "✏️ 编辑模式：关";
+  b.classList.toggle("on", on);
+  const list=[$("metaUnit"),$("metaLesson"),$("metaTitle"),$("equipText"),$("anaAnalysis"),$("anaPrinciple"),$("anaExamples")];
+  list.forEach(el=>el.setAttribute("contenteditable", on ? "true":"false"));
+  tip(on ? "✏️ 编辑模式：可直接修改文字；器材/方案右侧 ＋ 可添加选项；左侧可增删环节" : "🔒 已退出编辑模式");
+}
+$("editToggle").addEventListener("click",()=>setEditMode(!editMode));
+$("saveBtn").addEventListener("click",()=>saveLesson(false));
+$("addSectionBtn").addEventListener("click",()=>{
+  const t=prompt("新环节名称：","任务六");
+  if(!t) return;
+  const id="s"+Date.now().toString(36);
+  LESSON.sections.push({id:id,title:t,module:"board",equip:"",equipOpts:[],plans:[],analysis:"",principle:"",examples:"",board:'<h4>'+esc(t)+'</h4><p>在这里填写本环节内容（编辑模式下可直接在页面文字区修改）。</p>'});
+  LESSON.activeId=id; saveLesson(true); renderAll();
+});
+document.querySelectorAll(".add-chip").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const s=sec(); const key=btn.dataset.addChip;
+    const t=prompt(key==="equip" ? "新器材名称：" : "新实验方案名称：");
+    if(!t) return;
+    if(key==="equip") (s.equipOpts=s.equipOpts||[]).push(t);
+    else (s.plans=s.plans||[]).push({id:"p"+Date.now().toString(36), label:t});
+    saveLesson(true); renderRight();
+  });
+});
+$("exportBtn").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(LESSON,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=(LESSON.meta.title||"课件")+"-数据.json"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  tip("📤 已导出 JSON 数据文件");
+});
+$("importBtn").addEventListener("click",()=>$("jsonInput").click());
+$("jsonInput").addEventListener("change",function(){
+  const f=this.files && this.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const d=JSON.parse(r.result);
+      if(!d.sections||!d.sections.length) throw new Error("数据格式不正确");
+      LESSON=d; saveLesson(true); renderAll(); tip("📥 导入成功");
+    }catch(e){ alert("导入失败："+e.message); }
+  };
+  r.readAsText(f); this.value="";
+});
+$("resetBtn").addEventListener("click",()=>{
+  if(!confirm("将清空所有修改、恢复默认课件数据，确定？")) return;
+  localStorage.removeItem(STORE_KEY);
+  LESSON=defaultLesson(); saveLesson(true); renderAll(); tip("♻️ 已恢复默认数据");
+});
+
+/* ==================== 二维码弹窗 ==================== */
+$("brandBtn").addEventListener("click",()=>{ $("qrOverlay").classList.add("show"); });
+$("qrOverlay").addEventListener("click",()=>{ $("qrOverlay").classList.remove("show"); });
+$("qrClose").addEventListener("click",()=>{ $("qrOverlay").classList.remove("show"); });
+
+/* ==================== 启动 ==================== */
+renderAll();
+window.addEventListener("beforeunload",()=>{ try{ localStorage.setItem(STORE_KEY, JSON.stringify(LESSON)); }catch(e){} });
+</script>
+</body>
+</html>
